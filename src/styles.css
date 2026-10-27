@@ -220,7 +220,7 @@ button {
 .scene {
   position: absolute;
   inset: 0;
-  background-image: linear-gradient(90deg, #080c1288 0%, transparent 12%, transparent 85%, #080c1260), url("/altar-scene.jpg");
+  background-image: linear-gradient(90deg, #080c1288 0%, transparent 12%, transparent 85%, #080c1260), url("/altar-scene.webp"), url("/altar-scene.jpg");
   background-size: cover;
   background-position: center center;
   filter: saturate(1.12);

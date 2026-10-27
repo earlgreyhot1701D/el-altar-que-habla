@@ -168,13 +168,46 @@ export function selectOffering(id) {
   }
 }
 
-export function ask() {
+export async function ask() {
   const q = $("question").value.trim();
   if (!q) return;
-  const d = content[state.selected][state.language];
-  const l = labels[state.language];
-  $("answer").textContent = `${l.answerPrefix}${d.context} ${d.variations}`;
+
+  const currentOffering = state.selected;
+  const currentLang = state.language;
+  const d = content[currentOffering][currentLang];
+  const l = labels[currentLang];
+
+  // Set loading state
+  $("answer").textContent = l.thinkingMessage || "Consulting...";
   $("question").value = "";
+
+  try {
+    const res = await fetch("/api/explain", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        offeringId: currentOffering,
+        language: currentLang,
+        curatedContext: d,
+        question: q
+      })
+    });
+
+    if (!res.ok) throw new Error(`HTTP_${res.status}`);
+    const data = await res.json();
+
+    if (data.success && data.answer) {
+      const citation = data.sourceMention ? ` (${data.sourceMention})` : "";
+      $("answer").textContent = `${l.gemmaPrefix}${data.answer}${citation}`;
+      return;
+    }
+
+    // Fallback if model was unavailable
+    $("answer").textContent = `${l.answerPrefix}${d.context} ${d.variations}`;
+  } catch (err) {
+    // Graceful offline & error fallback
+    $("answer").textContent = `${l.answerPrefix}${d.context} ${d.variations}`;
+  }
 }
 
 export function init() {

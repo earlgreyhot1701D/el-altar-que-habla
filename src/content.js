@@ -216,7 +216,9 @@ export const labels = {
       layers: "Los altares pueden tener diferentes números de niveles. Su disposición y simbolismo varían por comunidad y familia.",
       objects: "Selecciona cualquiera de los siete símbolos iluminados en la ofrenda."
     },
-    answerPrefix: "Respuesta de la guía (sin IA): "
+    answerPrefix: "Respuesta de la guía (sin IA): ",
+    gemmaPrefix: "Guía Gemma 4 (IA con fuentes): ",
+    thinkingMessage: "Consultando con Gemma..."
   },
   en: {
     explore: "Explore",
@@ -227,7 +229,7 @@ export const labels = {
     hint: "✦ Select a symbol to discover its story",
     ask: "ASK ABOUT THIS ELEMENT",
     placeholder: "What does this symbol mean?",
-    foot: "Offline demo: responses come from curated content, not AI. Traditions vary by community and family.",
+    foot: "Curated cultural content with Gemma 4 assistance. Offline fallback active when disconnected. Traditions vary by community and family.",
     tabs: ["CONTEXT", "HISTORY", "VARIATIONS"],
     offeringsListTitle: "Altar Elements",
     resetAria: "Reset selection",
@@ -257,6 +259,8 @@ export const labels = {
       layers: "Altars can have different numbers of levels. Their arrangement and symbolism vary by community and family.",
       objects: "Select any of the seven illuminated symbols on the ofrenda."
     },
-    answerPrefix: "Curated guide (no AI): "
+    answerPrefix: "Curated guide (no AI): ",
+    gemmaPrefix: "Gemma 4 Guide (Source-Grounded AI): ",
+    thinkingMessage: "Consulting Gemma..."
   }
 };
