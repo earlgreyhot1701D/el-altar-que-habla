@@ -188,7 +188,6 @@ export async function ask() {
       body: JSON.stringify({
         offeringId: currentOffering,
         language: currentLang,
-        curatedContext: d,
         question: q
       })
     });

@@ -1,4 +1,5 @@
 import { MODEL, ENDPOINT, TIMEOUT_MS, thinkingConfig, sanitizeInput, extractJson, buildPrompt } from "./_gemma.js";
+import { APPROVED_OFFERINGS } from "./_curated_knowledge.js";
 
 // Rate limiting map: simple sliding window per IP
 const ipRequests = new Map();
@@ -31,16 +32,20 @@ export default async function handler(req, res) {
     return res.status(429).json({ error: "Rate limit exceeded. Please wait a moment." });
   }
 
-  const { offeringId, language, curatedContext, question } = req.body || {};
+  const { offeringId, language, question } = req.body || {};
 
-  // Validate required inputs
-  if (!offeringId || !curatedContext || !question) {
-    return res.status(400).json({ error: "Missing required fields" });
+  // Validate offering ID strictly against server-side approved list
+  if (!offeringId || !APPROVED_OFFERINGS[offeringId]) {
+    return res.status(400).json({ error: "Invalid or unsupported offering ID" });
   }
 
   const cleanQuestion = sanitizeInput(question);
   if (!cleanQuestion) {
     return res.status(400).json({ error: "Question cannot be empty" });
+  }
+
+  if (typeof question === "string" && question.length > 500) {
+    return res.status(400).json({ error: "Question exceeds maximum length of 500 characters" });
   }
 
   const apiKey = process.env.GEMINI_API_KEY;
@@ -52,17 +57,17 @@ export default async function handler(req, res) {
     });
   }
 
+  const lang = language === "es" ? "es" : "en";
   const prompt = buildPrompt({
     offeringId,
-    language: language === "es" ? "es" : "en",
-    curatedContext,
+    language: lang,
     userQuestion: cleanQuestion
   });
 
   const payload = {
     contents: [{ role: "user", parts: [{ text: prompt }] }],
     generationConfig: {
-      temperature: 0.3, // Low temperature for grounded cultural consistency
+      temperature: 0.3,
       maxOutputTokens: 350,
       responseMimeType: "application/json"
     }
@@ -102,12 +107,16 @@ export default async function handler(req, res) {
       throw new Error("Invalid model response format");
     }
 
+    // Verify model did not inject unauthorized sources
+    const allowedSources = APPROVED_OFFERINGS[offeringId].sources;
+    const validatedMention = allowedSources.join(" / ");
+
     return res.status(200).json({
       success: true,
       provider: "gemma-4",
       model: MODEL,
       answer: result.answer.trim().slice(0, 500),
-      sourceMention: result.sourceMention ? result.sourceMention.trim().slice(0, 60) : undefined
+      sourceMention: validatedMention
     });
   } catch (err) {
     const isTimeout = err.name === "AbortError";
