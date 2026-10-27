@@ -2,49 +2,49 @@
 Use checkbox status and commit at each milestone. Stop adding features when release criteria pass.
 
 ## Phase 0 — Baseline and safety
-- [ ] Create new GitHub repo and import **unchanged** V4 as `baseline/v4.html`.
-- [ ] Inspect V4 source, all event handlers, inline artwork, translations, citations, and current console behavior.
-- [ ] Inspect actual Blazon / Two Sisters Tinctures setup *only if accessible*; record reusable workflows, not assumptions.
-- [ ] Check repo for credentials before commit; add `.gitignore`; choose license.
-- [ ] Capture baseline desktop/mobile screenshots for visual comparison.
+- [x] Create new GitHub repo and import **unchanged** V4 as `baseline/v4.html`.
+- [x] Inspect V4 source, all event handlers, inline artwork, translations, citations, and current console behavior.
+- [x] Inspect actual Blazon / Two Sisters Tinctures setup *only if accessible*; record reusable workflows, not assumptions.
+- [x] Check repo for credentials before commit; add `.gitignore`; choose license.
+- [x] Capture baseline desktop/mobile screenshots for visual comparison.
 
 ## Phase 1 — First live preview (highest priority)
-- [ ] Choose static V4 deploy **or** minimal Vite; do not start with framework rewrite.
-- [ ] Add `package.json` scripts (`dev`, `build`, `test`) if using Vite.
-- [ ] Run local preview and resolve any runtime/build errors.
-- [ ] Connect GitHub repo to Vercel and deploy preview.
-- [ ] Verify preview URL loads and scene artwork appears.
-- [ ] Commit milestone: `chore: deploy baseline altar`.
+- [x] Choose static V4 deploy **or** minimal Vite; do not start with framework rewrite.
+- [x] Add `package.json` scripts (`dev`, `build`, `test`) if using Vite.
+- [x] Run local preview and resolve any runtime/build errors.
+- [x] Connect GitHub repo to Vercel and deploy preview.
+- [x] Verify preview URL loads and scene artwork appears.
+- [x] Commit milestone: `chore: deploy baseline altar`.
 
 ## Phase 2 — Function and accessibility
-- [ ] Verify seven hotspots and non-spatial offering selection.
-- [ ] Verify three explanation tabs for each offering.
-- [ ] Verify EN/ES toggle across all text, source cards, ARIA names, placeholders, errors.
-- [ ] Verify reset behavior and deterministic Q&A fallback.
-- [ ] Add keyboard focus, touch target, semantic regions, announcement support.
-- [ ] Verify 320/390/768/1440 widths and reduced-motion.
-- [ ] Fix bugs only; no typography redesign.
+- [x] Verify seven hotspots and non-spatial offering selection.
+- [x] Verify three explanation tabs for each offering.
+- [x] Verify EN/ES toggle across all text, source cards, ARIA names, placeholders, errors.
+- [x] Verify reset behavior and deterministic Q&A fallback.
+- [x] Add keyboard focus, touch target, semantic regions, announcement support.
+- [x] Verify 320/390/768/1440 widths and reduced-motion.
+- [x] Fix bugs only; no typography redesign.
 
 ## Phase 3 — Source and cultural editorial pass
-- [ ] Manually open all institutional source URLs.
-- [ ] Map every substantive offering claim to a source or qualify it.
-- [ ] Review regional specificity, avoid claiming one fixed Oaxaca tradition.
-- [ ] Review Spanish phrasing with a fluent human reviewer if possible.
-- [ ] Retain AI concept-art disclosure and deterministic-not-AI disclosure.
+- [x] Manually open all institutional source URLs.
+- [x] Map every substantive offering claim to a source or qualify it.
+- [x] Review regional specificity, avoid claiming one fixed Oaxaca tradition.
+- [x] Review Spanish phrasing with a fluent human reviewer if possible.
+- [x] Retain AI concept-art disclosure and deterministic-not-AI disclosure.
 
 ## Phase 4 — Automated regression
-- [ ] Add Playwright smoke tests: default language, each offering, tabs, toggle, source links, question, reset.
-- [ ] Run desktop and mobile Chromium checks; record commands and results.
-- [ ] Check no JS errors or horizontal overflow.
-- [ ] Run keyboard-only manual flow and accessibility audit; log unresolved issues.
-- [ ] Verify production build and deploy preview.
+- [x] Add Playwright smoke tests: default language, each offering, tabs, toggle, source links, question, reset.
+- [x] Run desktop and mobile Chromium checks; record commands and results.
+- [x] Check no JS errors or horizontal overflow.
+- [x] Run keyboard-only manual flow and accessibility audit; log unresolved issues.
+- [x] Verify production build and deploy preview.
 
 ## Phase 5 — Ship
-- [ ] Add README: concept, setup, usage, sources, AI disclosure, limitations, screenshots.
-- [ ] Confirm metadata, social preview, favicon, HTTPS.
-- [ ] Merge to main; verify Vercel production URL.
-- [ ] Add production URL and submission instructions to README.
-- [ ] Freeze MVP and tag release `v1.0.0`.
+- [x] Add README: concept, setup, usage, sources, AI disclosure, limitations, screenshots.
+- [x] Confirm metadata, social preview, favicon, HTTPS.
+- [x] Merge to main; verify Vercel production URL.
+- [x] Add production URL and submission instructions to README.
+- [x] Freeze MVP and tag release `v1.0.0`.
 
 ## Phase 6 — Stretch only if time remains
 - [ ] Decide if Gemma materially improves the experience.
