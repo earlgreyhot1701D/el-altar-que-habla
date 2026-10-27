@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090f1b">
+  <title>El Altar que Habla · Memoria, tradición y vida</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Alegreya:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/src/styles.css">
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div>
+        <div class="brand">
+          <div class="flower" aria-hidden="true">❀</div>
+          <h1>EL ALTAR<br>QUE HABLA</h1>
+          <small>DÍA DE LOS MUERTOS</small>
+          <em>Tradition · Memory · Life</em>
+        </div>
+        <div class="ornament" aria-hidden="true">──── ❧ ────</div>
+      </div>
+
+      <nav class="nav" aria-label="Sections">
+        <button class="active" data-nav="explore"><span>⌂</span><b data-i18n="explore">Explore</b></button>
+        <button data-nav="layers"><span>▱</span><b data-i18n="layers">The layers</b></button>
+        <button data-nav="objects"><span>❀</span><b data-i18n="elements">The elements</b></button>
+        <button data-nav="build"><span>＋</span><b data-i18n="build">Build an ofrenda</b></button>
+        <button data-nav="sources"><span>▤</span><b data-i18n="sources">Sources & reading</b></button>
+      </nav>
+
+      <!-- Non-spatial keyboard & screen-reader alternative navigation for all 7 offerings -->
+      <nav class="offerings-nav" aria-label="Altar offerings selection">
+        <div class="offerings-nav-title" id="offeringsListTitle">Altar Elements</div>
+        <ul class="offerings-list" role="list">
+          <li><button class="offering-select-btn active" data-id="flowers" aria-pressed="true"><span aria-hidden="true">🌼</span><span class="offering-btn-label">Marigolds</span></button></li>
+          <li><button class="offering-select-btn" data-id="photo" aria-pressed="false"><span aria-hidden="true">🖼️</span><span class="offering-btn-label">Portrait</span></button></li>
+          <li><button class="offering-select-btn" data-id="candles" aria-pressed="false"><span aria-hidden="true">🕯️</span><span class="offering-btn-label">Candles</span></button></li>
+          <li><button class="offering-select-btn" data-id="bread" aria-pressed="false"><span aria-hidden="true">🍞</span><span class="offering-btn-label">Bread</span></button></li>
+          <li><button class="offering-select-btn" data-id="paper" aria-pressed="false"><span aria-hidden="true">🎏</span><span class="offering-btn-label">Cut paper</span></button></li>
+          <li><button class="offering-select-btn" data-id="copal" aria-pressed="false"><span aria-hidden="true">🪔</span><span class="offering-btn-label">Copal</span></button></li>
+          <li><button class="offering-select-btn" data-id="water" aria-pressed="false"><span aria-hidden="true">💧</span><span class="offering-btn-label">Water</span></button></li>
+        </ul>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <div class="lang" role="group" aria-label="Language selection">
+          <button id="en" class="active" aria-pressed="true">EN</button>
+          <button id="es" aria-pressed="false">ES</button>
+        </div>
+        <p class="quote">“Remembrance gives love a place to gather.”</p>
+      </div>
+    </aside>
+
+    <main class="stage" aria-label="Interactive ofrenda">
+      <div class="scene" role="img" aria-label="Illustrated ofrenda with flowers, candles, portraits, bread and cut paper"></div>
+      <div class="stage-heading" id="stageHeading">AN OFRENDA TO REMEMBER</div>
+
+      <!-- Spatial Hotspots -->
+      <button class="hotspot selected" style="left:29%;top:16%" data-id="flowers" aria-label="Explore marigolds" aria-pressed="true">+</button>
+      <button class="hotspot" style="left:45%;top:34%" data-id="photo" aria-label="Explore portrait" aria-pressed="false">+</button>
+      <button class="hotspot" style="left:58%;top:46%" data-id="candles" aria-label="Explore candles" aria-pressed="false">+</button>
+      <button class="hotspot" style="left:34%;top:57%" data-id="bread" aria-label="Explore bread" aria-pressed="false">+</button>
+      <button class="hotspot" style="left:75%;top:56%" data-id="paper" aria-label="Explore cut paper" aria-pressed="false">+</button>
+      <button class="hotspot" style="left:49%;top:72%" data-id="copal" aria-label="Explore copal" aria-pressed="false">+</button>
+      <button class="hotspot" style="left:71%;top:76%" data-id="water" aria-label="Explore water" aria-pressed="false">+</button>
+
+      <div class="hint" id="hint">✦ Select a symbol to discover its story</div>
+    </main>
+
+    <section class="panel" aria-live="polite">
+      <div class="panel-top">
+        <span class="eyebrow" id="category">MARIGOLDS</span>
+        <button class="close" id="reset" aria-label="Reset selection">×</button>
+      </div>
+
+      <div class="detail-hero">
+        <div id="offeringArt" aria-hidden="true"></div>
+      </div>
+
+      <h2 id="title">The guiding flower</h2>
+      <p class="subtitle" id="subtitle">Beauty, memory, and a path</p>
+      <p class="description" id="description"></p>
+
+      <div class="facts" id="facts"></div>
+      <div class="note" id="note"></div>
+
+      <div class="tabs" role="group" aria-label="Explanation topics">
+        <button class="active" data-tab="context" aria-pressed="true">CONTEXT</button>
+        <button data-tab="history" aria-pressed="false">HISTORY</button>
+        <button data-tab="variations" aria-pressed="false">VARIATIONS</button>
+      </div>
+      <div class="tabcopy" id="tabcopy"></div>
+
+      <div class="item-sources" id="itemSources"></div>
+
+      <div class="ask">
+        <label for="question" id="askLabel">ASK ABOUT THIS ELEMENT</label>
+        <div class="ask-row">
+          <input id="question" maxlength="500" placeholder="What does this symbol mean?" autocomplete="off">
+          <button id="askButton" aria-label="Show curated explanation">➜</button>
+        </div>
+        <div class="answer" id="answer" role="status" aria-live="polite"></div>
+        <div class="footnote" id="footnote">Offline demo: responses come from curated content, not AI. Traditions vary by community and family.</div>
+      </div>
+    </section>
+  </div>
+
+  <section class="sources-section" id="sourcesSection" aria-labelledby="sourcesHeading">
+    <div class="sources-inner">
+      <div class="sources-kicker" id="sourcesKicker">RESEARCH & READING</div>
+      <h2 id="sourcesHeading">Explore the primary sources</h2>
+      <p id="sourcesIntro">The meanings presented here are grounded in Mexican cultural institutions and UNESCO documentation. Customs vary across communities and families; these references are a starting point, not a universal rulebook.</p>
+      <div id="sourceCards" class="source-cards"></div>
+      <p class="sources-disclaimer" id="sourcesDisclaimer">Research note: the scene is AI-generated concept artwork, not a documentary photograph of an actual family altar. Source links open the original publishers’ websites, often in Spanish.</p>
+    </div>
+  </section>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
