@@ -116,4 +116,29 @@ test("Cultural Accuracy: Bread variations qualify regional and community diversi
   assert.ok(esVariations.includes("diversas regiones y comunidades"), "Bread variations in Spanish acknowledges community diversity");
 });
 
+test("Left navigation: exactly three functional controls with proper bilingual labels", () => {
+  const indexHtml = fs.readFileSync(path.join(rootDir, "index.html"), "utf-8");
+  assert.match(indexHtml, /id="navExplore"/, "Must have navExplore");
+  assert.match(indexHtml, /id="navOfferings"/, "Must have navOfferings");
+  assert.match(indexHtml, /id="navSources"/, "Must have navSources");
+  assert.equal(indexHtml.includes('data-nav="layers"'), false, "Must not contain misleading layers nav button");
+  assert.equal(indexHtml.includes('data-nav="build"'), false, "Must not contain misleading build nav button");
+
+  ["en", "es"].forEach((lang) => {
+    const l = labels[lang];
+    assert.ok(l.explore, `Missing explore label for ${lang}`);
+    assert.ok(l.offerings, `Missing offerings label for ${lang}`);
+    assert.ok(l.sources, `Missing sources label for ${lang}`);
+  });
+});
+
+test("Hotspots: exactly seven hotspot buttons mapped to the seven sacred offerings", () => {
+  const indexHtml = fs.readFileSync(path.join(rootDir, "index.html"), "utf-8");
+  const hotspotMatches = [...indexHtml.matchAll(/<button[^>]*class="[^"]*hotspot[^"]*"[^>]*data-id="([^"]+)"/g)];
+  assert.equal(hotspotMatches.length, 7, "Must have exactly 7 hotspot buttons");
+  const mappedIds = hotspotMatches.map((m) => m[1]);
+  const expected = ["flowers", "photo", "candles", "bread", "paper", "copal", "water"];
+  assert.deepEqual(mappedIds.sort(), expected.sort(), "Hotspots must map precisely to the 7 offerings");
+});
+
 

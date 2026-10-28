@@ -434,26 +434,65 @@ export function init() {
     render();
   });
 
-  // Navigation sidebar items
-  document.querySelectorAll("[data-nav]").forEach((b) =>
-    b.addEventListener("click", () => {
-      document.querySelectorAll("[data-nav]").forEach((x) => x.classList.remove("active"));
-      b.classList.add("active");
-      const mode = b.dataset.nav;
-      const l = labels[state.language];
-      if (mode === "sources") {
-        document.getElementById("sourcesSection")?.scrollIntoView({ behavior: "smooth" });
-        $("answer").textContent = "";
-      } else if (l.navMessages[mode]) {
-        $("answer").textContent = l.navMessages[mode];
-      } else {
-        $("answer").textContent = "";
+  // Navigation sidebar items with clear, functional destinations
+  const navExplore = document.getElementById("navExplore");
+  const navOfferings = document.getElementById("navOfferings");
+  const navSources = document.getElementById("navSources");
+
+  function setActiveNav(activeBtn) {
+    document.querySelectorAll("[data-nav]").forEach((b) => {
+      b.classList.remove("active");
+      b.setAttribute("aria-current", "false");
+    });
+    if (activeBtn) {
+      activeBtn.classList.add("active");
+      activeBtn.setAttribute("aria-current", "page");
+    }
+  }
+
+  if (navExplore) {
+    navExplore.addEventListener("click", () => {
+      setActiveNav(navExplore);
+      const stage = document.querySelector(".stage");
+      if (stage) {
+        stage.scrollIntoView({
+          behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth",
+          block: "start"
+        });
       }
-      if (window.innerWidth <= 850 && mode !== "explore" && mode !== "sources") {
-        document.querySelector(".panel")?.scrollIntoView({ behavior: "smooth" });
+      const activeHotspot = document.querySelector(".hotspot.active") || document.querySelector(".hotspot");
+      activeHotspot?.focus();
+    });
+  }
+
+  if (navOfferings) {
+    navOfferings.addEventListener("click", () => {
+      setActiveNav(navOfferings);
+      const offeringsNav = document.querySelector(".offerings-nav");
+      if (offeringsNav) {
+        offeringsNav.scrollIntoView({
+          behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth",
+          block: "nearest"
+        });
       }
-    })
-  );
+      const activeOfferingBtn = document.querySelector(".offering-select-btn.active") || document.querySelector(".offering-select-btn");
+      activeOfferingBtn?.focus();
+    });
+  }
+
+  if (navSources) {
+    navSources.addEventListener("click", () => {
+      setActiveNav(navSources);
+      const sourcesSection = document.getElementById("sourcesSection");
+      if (sourcesSection) {
+        sourcesSection.scrollIntoView({
+          behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth",
+          block: "start"
+        });
+        sourcesSection.focus?.();
+      }
+    });
+  }
 
   // Question Q&A input
   $("askButton").addEventListener("click", ask);

@@ -211,11 +211,9 @@ export const labels = {
       copal: "Copal",
       water: "Agua"
     },
-    navMessages: {
-      build: "Próximamente: crea tu propia ofrenda. Primero exploramos y aprendemos.",
-      layers: "Los altares pueden tener diferentes números de niveles. Su disposición y simbolismo varían por comunidad y familia.",
-      objects: "Selecciona cualquiera de los siete símbolos iluminados en la ofrenda."
-    },
+    explore: "Explorar el altar",
+    offerings: "Las siete ofrendas",
+    sources: "Fuentes y lecturas",
     answerPrefix: "Guía curada (sin IA): ",
     gemmaPrefix: "Guía Gemma 4 (IA con fuentes): ",
     thinkingMessage: "Consultando con Gemma...",
@@ -234,10 +232,8 @@ export const labels = {
     detailSourcesTitle: "Fuentes Institucionales"
   },
   en: {
-    explore: "Explore",
-    layers: "The layers",
-    elements: "The elements",
-    build: "Build an ofrenda",
+    explore: "Explore the altar",
+    offerings: "The seven offerings",
     sources: "Sources & reading",
     hint: "✦ Select a symbol to discover its story",
     ask: "ASK ABOUT THIS ELEMENT",
@@ -266,11 +262,6 @@ export const labels = {
       paper: "Cut paper",
       copal: "Copal",
       water: "Water"
-    },
-    navMessages: {
-      build: "Coming later: build your own ofrenda. First, explore and learn.",
-      layers: "Altars can have different numbers of levels. Their arrangement and symbolism vary by community and family.",
-      objects: "Select any of the seven illuminated symbols on the ofrenda."
     },
     answerPrefix: "Curated guide (no AI): ",
     gemmaPrefix: "Gemma 4 Guide (Source-Grounded AI): ",
