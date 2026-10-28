@@ -234,3 +234,42 @@ test("Client Async Race Condition: State currentRequestId cancels stale response
   assert.equal(isStale, true, "Stale async response is identified and discarded");
 });
 
+test("Regression: Spanish Gemma question for bread addresses bread, not marigolds", async () => {
+  await withMockProvider(async (url, opts) => {
+    const payload = JSON.parse(opts.body);
+    const userPrompt = payload.contents[0].parts[0].text;
+    assert.match(userPrompt, /Element: PAN DE MUERTO/, "Gemma prompt must be grounded in bread, not flowers");
+    assert.match(userPrompt, /pan de muerto/i, "User question must be passed to prompt");
+    return {
+      ok: true,
+      json: async () => ({
+        candidates: [
+          {
+            content: {
+              parts: [
+                {
+                  text: JSON.stringify({
+                    answer: "El pan de muerto es un alimento sagrado colocado en la ofrenda que simboliza la fraternidad y el recuerdo.",
+                    sourceMention: "INAH"
+                  })
+                }
+              ]
+            }
+          }
+        ]
+      })
+    };
+  }, async () => {
+    const res = await callMockHandler({
+      offeringId: "bread",
+      language: "es",
+      question: "¿Cuál es el significado del pan de muerto?"
+    });
+    assert.equal(res.status, 200);
+    assert.equal(res.data.success, true);
+    assert.match(res.data.answer, /pan de muerto/);
+    assert.equal(res.data.sourceMention, "INAH");
+  });
+});
+
+

@@ -42,7 +42,7 @@ button {
 
 .app {
   display: grid;
-  grid-template-columns: 215px minmax(0, 1fr) 405px;
+  grid-template-columns: 230px minmax(0, 1fr) 440px;
   min-height: 100vh;
   max-width: 2100px;
   margin: auto;
@@ -53,7 +53,7 @@ button {
   padding: 30px 17px;
   display: flex;
   flex-direction: column;
-  border-right: 1px solid #d99b4240;
+  border-right: 1px solid rgba(217, 155, 66, 0.18);
   z-index: 3;
 }
 
@@ -516,8 +516,8 @@ button {
 .panel {
   z-index: 3;
   background: linear-gradient(160deg, #0c1421, #080e19);
-  border-left: 1px solid #b9843e6b;
-  padding: 23px 23px 30px;
+  border-left: 1px solid rgba(217, 155, 66, 0.18);
+  padding: 26px 28px 34px;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
@@ -532,30 +532,38 @@ button {
 
 .eyebrow {
   color: var(--gold);
-  font-size: 10px;
+  font-size: 11px;
   letter-spacing: 0.16em;
   text-transform: uppercase;
 }
 
 .close {
-  border: 1px solid #d4ad735e;
+  border: 1px solid rgba(212, 173, 115, 0.25);
   color: #f7dfb8;
   background: transparent;
   border-radius: 50%;
-  height: 38px;
-  width: 38px;
-  font-size: 20px;
+  height: 34px;
+  width: 34px;
+  font-size: 18px;
+  display: grid;
+  place-items: center;
+  transition: all 0.2s ease;
+}
+
+.close:hover {
+  background: rgba(239, 179, 95, 0.12);
+  border-color: var(--gold);
 }
 
 .detail-hero {
-  height: 190px;
-  margin: 14px 0 20px;
-  border-radius: 12px;
-  background: radial-gradient(circle at 50% 45%, #ee9b3260, transparent 58%), linear-gradient(150deg, #36221d, #0c1522);
+  height: 175px;
+  margin: 14px 0 18px;
+  border-radius: 10px;
+  background: radial-gradient(circle at 50% 50%, rgba(238, 155, 50, 0.22), transparent 68%), linear-gradient(150deg, #251816, #0c1522);
   display: grid;
   place-items: center;
   overflow: hidden;
-  border: 1px solid #e3a35a33;
+  border: 1px solid rgba(227, 163, 90, 0.2);
 }
 
 .detail-hero #offeringArt {
@@ -566,14 +574,14 @@ button {
 }
 
 .offering-art {
-  width: min(100%, 310px);
+  width: min(100%, 280px);
   height: 100%;
-  max-height: 260px;
-  filter: drop-shadow(0 10px 16px #0007);
+  max-height: 240px;
+  filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.55));
 }
 
 .panel h2 {
-  font: 700 42px / 0.98 "Cormorant Garamond", Georgia, serif;
+  font: 700 38px / 1.05 "Cormorant Garamond", Georgia, serif;
   color: var(--gold2);
   margin: 8px 0 4px;
   letter-spacing: 0.01em;
@@ -581,49 +589,54 @@ button {
 }
 
 .subtitle {
-  font: italic 23px "Cormorant Garamond";
+  font: italic 21px "Cormorant Garamond";
   color: var(--gold);
-  margin: 0 0 18px;
+  margin: 0 0 14px;
 }
 
 .description {
-  color: #c7c8cc;
-  font-size: 15px;
-  line-height: 1.7;
+  color: #dcdde2;
+  font-size: 16px;
+  line-height: 1.65;
+  margin: 0 0 16px;
 }
 
 .facts {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 9px;
-  margin: 23px 0;
+  gap: 8px;
+  margin: 16px 0 20px;
 }
 
 .fact {
   text-align: center;
-  border: 1px solid #d99d4133;
-  border-radius: 9px;
-  padding: 12px 5px;
+  border: 1px solid rgba(217, 157, 65, 0.18);
+  border-radius: 8px;
+  padding: 10px 6px;
+  background: rgba(16, 26, 40, 0.45);
 }
 
 .fact b {
   display: block;
-  font-size: 22px;
-  margin-bottom: 7px;
+  font-size: 20px;
+  margin-bottom: 4px;
+  color: #fff1d2;
 }
 
 .fact span {
-  font-size: 10px;
-  color: #e6b66d;
+  font-size: 11px;
+  font-family: Inter, Arial, sans-serif;
+  color: #e5b66d;
+  line-height: 1.3;
 }
 
 .note {
-  border: 1px solid #c38c494c;
-  border-radius: 11px;
-  padding: 17px;
-  color: #e6b776;
-  font: italic 19px / 1.25 "Cormorant Garamond";
-  background: #e0a04a0a;
+  border: 1px solid rgba(195, 140, 73, 0.25);
+  border-radius: 8px;
+  padding: 14px 16px;
+  color: #ebd0a3;
+  font: italic 18px / 1.3 "Cormorant Garamond";
+  background: rgba(224, 160, 74, 0.05);
 }
 
 .tabs {
@@ -899,41 +912,53 @@ button {
   }
   .sidebar {
     min-height: unset;
-    padding: 14px 15px;
+    padding: 10px 14px;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
     flex-wrap: wrap;
-    gap: 12px;
+    gap: 8px;
+    border-right: 0;
+    border-bottom: 1px solid rgba(217, 155, 66, 0.18);
   }
   .brand h1 {
-    font-size: 21px;
+    font-size: 20px;
     margin: 0;
   }
   .brand h1::after, .brand .flower, .brand small, .brand em, .ornament, .sidebar-bottom .quote {
     display: none;
+  }
+  .visit-progress {
+    margin: 4px 0;
+    padding: 6px 10px;
   }
   .nav {
     width: 100%;
     order: 3;
     display: flex;
     flex-wrap: wrap;
+    gap: 5px;
   }
   .nav button {
     flex: 1 1 auto;
     justify-content: center;
-    padding: 9px;
+    padding: 7px 10px;
+    font-size: 13px;
   }
   .offerings-nav {
     order: 4;
     width: 100%;
-    margin: 4px 0 0;
-    padding-top: 8px;
+    margin: 2px 0 0;
+    padding-top: 6px;
   }
   .offerings-list {
     display: flex;
     flex-wrap: wrap;
-    gap: 6px;
+    gap: 5px;
+  }
+  .offering-select-btn {
+    padding: 5px 8px;
+    font-size: 11px;
   }
   .sidebar-bottom {
     display: block;
@@ -942,25 +967,36 @@ button {
   .lang {
     display: flex;
   }
+  .lang button {
+    padding: 6px 12px;
+    font-size: 11px;
+  }
   .stage {
-    min-height: 70vh;
+    min-height: 58vh;
   }
   .panel {
     min-height: unset;
     border-left: 0;
-    border-top: 1px solid #b9843e6b;
+    border-top: 1px solid rgba(217, 155, 66, 0.2);
+    padding: 20px 18px 30px;
   }
   .detail-hero {
-    height: 140px;
+    height: 145px;
+    margin: 10px 0 14px;
   }
   .facts {
-    margin: 12px 0;
+    margin: 12px 0 16px;
   }
   .hint {
-    bottom: 16px;
+    bottom: 14px;
+    padding: 9px 16px;
+    font-size: 11px;
   }
   .panel h2 {
-    font-size: 38px;
+    font-size: 32px;
+  }
+  .subtitle {
+    font-size: 19px;
   }
   .sources-section {
     padding: 35px 18px;
@@ -969,25 +1005,27 @@ button {
 
 @media (max-width: 480px) {
   .stage {
-    min-height: 64vh;
+    min-height: 52vh;
   }
   .hotspot {
-    width: 36px;
-    height: 36px;
+    width: 38px;
+    height: 38px;
     font-size: 22px;
   }
   .stage-heading {
     font-size: 9px;
+    top: 14px;
+    left: 14px;
   }
   .hint {
     font-size: 10px;
-    padding: 10px 13px;
+    padding: 8px 12px;
   }
   .panel {
-    padding: 18px;
+    padding: 16px;
   }
   .fact span {
-    font-size: 9px;
+    font-size: 10px;
   }
 }
 
