@@ -79,6 +79,19 @@ npm run build
 
 ---
 
+## ✦ v1.1.0 Enhancements: Life, Light & Gemma
+
+- **Gemma 4 Inference (`gemma-4-26b-a4b-it`):** Genuine AI assistant grounded strictly on institutional texts with per-IP rate limiting and deterministic fallback.
+- **Priority 3 Cultural Trust:** Offering-specific verified institutional links directly inside the detail panel. Claim-by-claim provenance against INAH and UNESCO passages. Explicit notice regarding regional server timeouts on the Edomex tiers reference without substituting unrelated links.
+- **Priority 4 Visitor Experience:** Bilingual, skippable, accessible first-visit welcome modal; visited-offering tracking with subtle gold checkmarks; progress bar and completion acknowledgment.
+- **Progressive Image Delivery:** CSS `image-set()` eliminates duplicate asset downloads on mobile, cutting altar image transfer by 38% (WebP 195 KB vs JPEG 312 KB) and improving mobile LCP.
+- **Technical Architecture Note on Serverless Rate Limiting:**
+  > [!NOTE]
+  > The rate limiter in `/api/explain.js` uses an in-memory sliding window (15 requests/minute per IP). In serverless execution environments (such as Vercel), instances scale dynamically across distinct cold lambdas. Consequently, in-memory rate limiting operates on a *best-effort basis per instance* rather than globally across all edge locations. For high-traffic enterprise production, an edge key-value store (such as Upstash Redis or Vercel KV) would provide unified rate limiting.
+
+---
+
 ## ✦ License
 
 This project is licensed under the [MIT License](LICENSE).
+

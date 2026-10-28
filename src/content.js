@@ -218,7 +218,20 @@ export const labels = {
     },
     answerPrefix: "Respuesta de la guía (sin IA): ",
     gemmaPrefix: "Guía Gemma 4 (IA con fuentes): ",
-    thinkingMessage: "Consultando con Gemma..."
+    thinkingMessage: "Consultando con Gemma...",
+    intro: {
+      badge: "BIENVENIDOS · WELCOME",
+      title: "Adéntrate en la Ofrenda",
+      text: "Bienvenido a El Altar que Habla. El Día de Muertos es una celebración viva de memoria, respeto y hospitalidad en México. Explora siete ofrendas sagradas en el altar, descubre sus significados basados en instituciones culturales y conversa con nuestra guía Gemma basada en fuentes.",
+      begin: "Comenzar exploración",
+      skip: "Saltar",
+      dismiss: "Cerrar bienvenida"
+    },
+    progress: {
+      title: "Ofrendas exploradas",
+      complete: "Todas las ofrendas han sido honradas con reverencia"
+    },
+    detailSourcesTitle: "Referencias Institucionales Específicas"
   },
   en: {
     explore: "Explore",
@@ -261,6 +274,19 @@ export const labels = {
     },
     answerPrefix: "Curated guide (no AI): ",
     gemmaPrefix: "Gemma 4 Guide (Source-Grounded AI): ",
-    thinkingMessage: "Consulting Gemma..."
+    thinkingMessage: "Consulting Gemma...",
+    intro: {
+      badge: "WELCOME · BIENVENIDOS",
+      title: "Step into the Ofrenda",
+      text: "Welcome to El Altar que Habla. Día de los Muertos is a living Mexican celebration of memory, respect, and hospitality. Explore seven sacred offerings across the altar, learn their stories grounded in institutional archives, and converse with our grounded Gemma guide.",
+      begin: "Begin Exploration",
+      skip: "Skip",
+      dismiss: "Dismiss welcome"
+    },
+    progress: {
+      title: "Offerings Explored",
+      complete: "All offerings honored with reverence"
+    },
+    detailSourcesTitle: "Verified Institutional References"
   }
 };

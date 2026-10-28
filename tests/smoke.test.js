@@ -69,3 +69,42 @@ test("Built dist/ directory contains valid HTML, CSS, JS and altar scene image",
   assert.match(indexContent, /data-id="flowers"/);
   assert.match(indexContent, /data-id="water"/);
 });
+
+test("Priority 3: Cultural Trust - detail sources exist and preserve institutional attributions", () => {
+  const expectedOfferings = ["flowers", "photo", "candles", "bread", "paper", "copal", "water"];
+  expectedOfferings.forEach((offeringId) => {
+    const mapped = itemSourceMap[offeringId];
+    assert.ok(mapped.length >= 1, `${offeringId} must have at least one institutional citation`);
+    
+    mapped.forEach((srcKey) => {
+      const src = sources[srcKey];
+      assert.ok(src.publisher, `Source ${srcKey} has publisher`);
+      assert.ok(src.name.en && src.name.es, `Source ${srcKey} has bilingual name`);
+      assert.ok(src.description.en && src.description.es, `Source ${srcKey} has bilingual description`);
+      assert.ok(src.url.startsWith("https://"), `Source ${srcKey} has valid https URL`);
+    });
+  });
+
+  // Altar levels archival notice honesty check
+  assert.ok(sources.levels.publisher.includes("Archival Notice") || sources.levels.publisher.includes("Government of the State of Mexico"), "Levels source retains honest publisher context");
+  assert.equal(sources.levels.url, "https://edomex.gob.mx/dia-de-muertos", "Preserves honest direct Edomex URL without substitution");
+});
+
+test("Priority 4: Visitor Experience - bilingual labels and exploration tracking data structures", () => {
+  ["en", "es"].forEach((lang) => {
+    const l = labels[lang];
+    assert.ok(l.intro, `Missing intro object for ${lang}`);
+    assert.ok(l.intro.badge, `Missing intro badge for ${lang}`);
+    assert.ok(l.intro.title, `Missing intro title for ${lang}`);
+    assert.ok(l.intro.text, `Missing intro text for ${lang}`);
+    assert.ok(l.intro.begin, `Missing intro begin button text for ${lang}`);
+    assert.ok(l.intro.skip, `Missing intro skip button text for ${lang}`);
+
+    assert.ok(l.progress, `Missing progress object for ${lang}`);
+    assert.ok(l.progress.title, `Missing progress title for ${lang}`);
+    assert.ok(l.progress.complete, `Missing progress complete message for ${lang}`);
+
+    assert.ok(l.detailSourcesTitle, `Missing detailSourcesTitle for ${lang}`);
+  });
+});
+

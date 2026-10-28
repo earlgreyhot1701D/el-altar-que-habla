@@ -130,11 +130,235 @@ button {
   box-shadow: 0 0 16px #e38b3222;
 }
 
+/* First-visit Welcome Modal */
+.intro-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(4, 7, 13, 0.78);
+  backdrop-filter: blur(4px);
+  padding: 20px;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.intro-modal[hidden] {
+  display: none;
+}
+
+.intro-dialog {
+  background: linear-gradient(165deg, #101a2c, #0c1421 70%, #070b13);
+  border: 1px solid var(--gold);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.7), 0 0 24px rgba(239, 179, 95, 0.2);
+  border-radius: 14px;
+  max-width: 520px;
+  width: 100%;
+  padding: 28px 26px;
+  color: #f9edda;
+  position: relative;
+  animation: introPop 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes introPop {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.intro-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.intro-badge {
+  font-family: Inter, Arial, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: var(--gold);
+  background: rgba(239, 179, 95, 0.12);
+  border: 1px solid rgba(239, 179, 95, 0.3);
+  border-radius: 20px;
+  padding: 4px 12px;
+}
+
+.intro-close {
+  background: transparent;
+  border: 0;
+  color: #d2aa75;
+  font-size: 26px;
+  line-height: 1;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+
+.intro-close:hover, .intro-close:focus-visible {
+  color: #fff;
+  background: rgba(239, 179, 95, 0.16);
+  outline: 2px solid var(--gold);
+}
+
+.intro-dialog h3 {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 32px;
+  font-weight: 600;
+  color: #fff4dc;
+  margin: 0 0 12px;
+  line-height: 1.15;
+}
+
+.intro-dialog p {
+  font-size: 16px;
+  line-height: 1.65;
+  color: #d1c8bd;
+  margin: 0 0 22px;
+}
+
+.intro-dialog p em {
+  color: var(--gold2);
+  font-style: normal;
+  font-weight: 600;
+}
+
+.intro-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.intro-btn {
+  font-family: Inter, Arial, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  transition: all 0.2s;
+}
+
+.intro-btn.primary {
+  background: var(--gold);
+  color: #120e17;
+}
+
+.intro-btn.primary:hover, .intro-btn.primary:focus-visible {
+  background: #f7ca7a;
+  box-shadow: 0 0 14px rgba(239, 179, 95, 0.4);
+  outline: 2px solid #fff;
+}
+
+.intro-btn.secondary {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(217, 155, 66, 0.35);
+  color: #d8c8b6;
+}
+
+.intro-btn.secondary:hover, .intro-btn.secondary:focus-visible {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  outline: 2px solid var(--gold);
+}
+
+/* Visit Progress Bar & Completion */
+.visit-progress {
+  margin: 18px 0 6px;
+  background: rgba(16, 25, 39, 0.65);
+  border: 1px solid rgba(217, 155, 66, 0.25);
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+
+.visit-progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: Inter, Arial, sans-serif;
+  font-size: 11px;
+  color: #c9bcaf;
+  margin-bottom: 6px;
+}
+
+.visit-progress-title {
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--gold2);
+}
+
+.visit-progress-count {
+  font-weight: 700;
+  color: #fff;
+}
+
+.visit-progress-bar {
+  height: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.visit-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #d88936, var(--gold));
+  border-radius: 3px;
+  transition: width 0.35s ease;
+}
+
+.completion-badge {
+  margin-top: 8px;
+  padding: 6px 10px;
+  background: rgba(239, 179, 95, 0.15);
+  border: 1px solid var(--gold);
+  border-radius: 6px;
+  font-family: Inter, Arial, sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  color: #fff4dc;
+  text-align: center;
+  animation: fadeIn 0.4s ease;
+}
+
+.completion-badge[hidden] {
+  display: none;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Visited Checkmark on Offering Buttons */
+.visited-check {
+  font-size: 10px;
+  color: var(--gold);
+  font-weight: 700;
+  opacity: 0;
+  transform: scale(0.6);
+  transition: all 0.25s ease;
+  width: 12px;
+  display: inline-block;
+}
+
+.offering-select-btn.is-visited .visited-check {
+  opacity: 1;
+  transform: scale(1);
+}
+
 /* Accessible non-spatial offerings bar */
 .offerings-nav {
-  margin: 18px 0;
+  margin: 14px 0 18px;
   border-top: 1px solid #d99b4226;
-  padding-top: 15px;
+  padding-top: 14px;
 }
 
 .offerings-nav-title {
@@ -435,6 +659,67 @@ button {
   line-height: 1.7;
   min-height: 74px;
   margin-top: 14px;
+}
+
+/* Specific Offering Institutional References */
+.offering-detail-sources {
+  margin-top: 18px;
+  padding: 12px 14px;
+  background: rgba(16, 25, 39, 0.7);
+  border: 1px solid rgba(217, 155, 66, 0.3);
+  border-radius: 8px;
+}
+
+.offering-detail-sources h4 {
+  margin: 0 0 8px;
+  font-family: Inter, Arial, sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.offering-sources-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.offering-source-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 4px 0;
+  border-bottom: 1px dashed rgba(217, 155, 66, 0.18);
+}
+
+.offering-source-item:last-child {
+  border-bottom: none;
+}
+
+.offering-source-pub {
+  font-family: Inter, Arial, sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--gold2);
+}
+
+.offering-source-link {
+  font-family: Alegreya, Georgia, serif;
+  font-size: 13px;
+  color: #f7e6ce;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.2s;
+}
+
+.offering-source-link:hover, .offering-source-link:focus-visible {
+  color: #fff;
+  outline: 1px dashed var(--gold);
 }
 
 .item-sources {

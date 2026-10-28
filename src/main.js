@@ -3,10 +3,11 @@ import { sources, itemSourceMap } from "./sources.js";
 import { illustrations } from "./illustrations.js";
 
 // State Contract
-let state = {
+export const state = {
   language: "en",
   selected: "flowers",
-  tab: "context"
+  tab: "context",
+  visitedOfferings: new Set(["flowers"])
 };
 
 const $ = (id) => document.getElementById(id);
@@ -58,6 +59,37 @@ export function renderSources() {
   });
 }
 
+export function renderOfferingDetailSources() {
+  const l = labels[state.language];
+  const listEl = $("offeringSourcesList");
+  const titleEl = $("offeringSourcesTitle");
+  if (titleEl) titleEl.textContent = l.detailSourcesTitle;
+  if (!listEl) return;
+
+  const mapped = itemSourceMap[state.selected] || [];
+  listEl.replaceChildren(
+    ...mapped.map((id) => {
+      const src = sources[id];
+      const li = document.createElement("li");
+      li.className = "offering-source-item";
+
+      const pub = document.createElement("span");
+      pub.className = "offering-source-pub";
+      pub.textContent = src.publisher;
+
+      const a = document.createElement("a");
+      a.className = "offering-source-link";
+      a.href = src.url;
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+      a.textContent = `${src.name[state.language]} ↗`;
+
+      li.append(pub, a);
+      return li;
+    })
+  );
+}
+
 export function render() {
   const l = labels[state.language];
   const d = content[state.selected][state.language];
@@ -65,8 +97,9 @@ export function render() {
 
   document.documentElement.lang = state.language;
 
-  // Render sources section
+  // Render sources section & offering detail references
   renderSources();
+  renderOfferingDetailSources();
 
   // Landmarks & labels
   const stage = document.querySelector(".stage");
@@ -90,19 +123,56 @@ export function render() {
     b.classList.toggle("selected", id === state.selected);
   });
 
-  // Non-spatial offering buttons
+  // Non-spatial offering buttons with visited indicators
   const offeringsTitle = $("offeringsListTitle");
   if (offeringsTitle) offeringsTitle.textContent = l.offeringsListTitle;
 
   document.querySelectorAll(".offering-select-btn").forEach((b) => {
     const id = b.dataset.id;
     const name = l.names[id] || id;
+    const isVisited = state.visitedOfferings.has(id);
     b.setAttribute("aria-label", (isEn ? "Select " : "Seleccionar ") + name);
     b.setAttribute("aria-pressed", String(id === state.selected));
     b.classList.toggle("active", id === state.selected);
+    b.classList.toggle("is-visited", isVisited);
     const span = b.querySelector(".offering-btn-label");
     if (span) span.textContent = name;
   });
+
+  // Update Visit Progress Bar & Completion
+  const count = state.visitedOfferings.size;
+  const total = 7;
+  const pct = Math.round((count / total) * 100);
+
+  const progressTitle = $("visitProgressTitle");
+  if (progressTitle) progressTitle.textContent = l.progress.title;
+
+  const progressCount = $("visitProgressCount");
+  if (progressCount) progressCount.textContent = `${count} / ${total}`;
+
+  const progressFill = $("visitProgressFill");
+  if (progressFill) progressFill.style.width = `${pct}%`;
+
+  const completionBadge = $("completionBadge");
+  const completionText = $("completionText");
+  if (completionBadge && completionText) {
+    completionText.textContent = l.progress.complete;
+    completionBadge.hidden = count < total;
+  }
+
+  // Update Intro Modal text if rendered
+  const introBadge = $("introBadge");
+  if (introBadge) introBadge.textContent = l.intro.badge;
+  const introHeading = $("introHeading");
+  if (introHeading) introHeading.textContent = l.intro.title;
+  const introText = $("introText");
+  if (introText) introText.textContent = l.intro.text;
+  const introBegin = $("introBeginBtn");
+  if (introBegin) introBegin.textContent = l.intro.begin;
+  const introSkip = $("introSkipBtn");
+  if (introSkip) introSkip.textContent = l.intro.skip;
+  const introDismissX = $("introDismissX");
+  if (introDismissX) introDismissX.setAttribute("aria-label", l.intro.dismiss);
 
   // Reset and ask buttons
   $("reset").setAttribute("aria-label", l.resetAria);
@@ -157,6 +227,7 @@ export function render() {
 
 export function selectOffering(id) {
   state.selected = id;
+  state.visitedOfferings.add(id);
   state.tab = "context";
   $("answer").textContent = "";
   render();
@@ -209,7 +280,48 @@ export async function ask() {
   }
 }
 
+export function dismissIntroModal() {
+  const modal = $("introModal");
+  if (modal) {
+    modal.hidden = true;
+    try {
+      localStorage.setItem("altar_intro_seen", "true");
+    } catch (_) {}
+    // Return focus gracefully to main stage
+    const firstHotspot = document.querySelector(".hotspot");
+    if (firstHotspot) firstHotspot.focus();
+  }
+}
+
 export function init() {
+  // Check first-visit welcome modal state
+  const modal = $("introModal");
+  if (modal) {
+    let seen = false;
+    try {
+      seen = localStorage.getItem("altar_intro_seen") === "true";
+    } catch (_) {}
+
+    if (seen) {
+      modal.hidden = true;
+    } else {
+      modal.hidden = false;
+      // Focus the primary action button for keyboard users
+      $("introBeginBtn")?.focus();
+    }
+
+    $("introDismissX")?.addEventListener("click", dismissIntroModal);
+    $("introBeginBtn")?.addEventListener("click", dismissIntroModal);
+    $("introSkipBtn")?.addEventListener("click", dismissIntroModal);
+
+    // Escape key closes modal
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && !modal.hidden) {
+        dismissIntroModal();
+      }
+    });
+  }
+
   // Hotspot clicks
   document.querySelectorAll(".hotspot").forEach((b) =>
     b.addEventListener("click", () => selectOffering(b.dataset.id))
@@ -228,7 +340,7 @@ export function init() {
     })
   );
 
-  // Language clicks
+  // Language clicks - preserve selected tab and visited offerings
   ["es", "en"].forEach((lang) =>
     $(lang).addEventListener("click", () => {
       state.language = lang;

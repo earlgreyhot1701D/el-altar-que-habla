@@ -11,6 +11,24 @@
   <link rel="stylesheet" href="/src/styles.css">
 </head>
 <body>
+  <!-- First-visit Welcome Introduction (Dismissible & Accessible) -->
+  <aside id="introModal" class="intro-modal" role="dialog" aria-modal="true" aria-labelledby="introHeading" aria-describedby="introText">
+    <div class="intro-dialog">
+      <div class="intro-header">
+        <span class="intro-badge" id="introBadge">WELCOME · BIENVENIDOS</span>
+        <button id="introDismissX" class="intro-close" aria-label="Dismiss introduction">×</button>
+      </div>
+      <h3 id="introHeading">Step into the Ofrenda</h3>
+      <p id="introText">
+        Welcome to <em>El Altar que Habla</em>. Día de los Muertos is a living Mexican celebration of memory and hospitality. Explore seven illuminated offerings across the altar, learn their stories grounded in institutional archives, and converse with our grounded Gemma guide.
+      </p>
+      <div class="intro-actions">
+        <button id="introBeginBtn" class="intro-btn primary">Begin Exploration</button>
+        <button id="introSkipBtn" class="intro-btn secondary">Skip</button>
+      </div>
+    </div>
+  </aside>
+
   <div class="app">
     <aside class="sidebar">
       <div>
@@ -31,17 +49,31 @@
         <button data-nav="sources"><span>▤</span><b data-i18n="sources">Sources & reading</b></button>
       </nav>
 
+      <!-- Exploration Progress Banner -->
+      <div class="visit-progress" id="visitProgress" aria-live="polite">
+        <div class="visit-progress-header">
+          <span class="visit-progress-title" id="visitProgressTitle">Offerings Explored</span>
+          <span class="visit-progress-count" id="visitProgressCount">1 / 7</span>
+        </div>
+        <div class="visit-progress-bar">
+          <div class="visit-progress-fill" id="visitProgressFill" style="width: 14.3%"></div>
+        </div>
+        <div class="completion-badge" id="completionBadge" hidden>
+          ✦ <span id="completionText">All offerings honored with reverence</span>
+        </div>
+      </div>
+
       <!-- Non-spatial keyboard & screen-reader alternative navigation for all 7 offerings -->
       <nav class="offerings-nav" aria-label="Altar offerings selection">
         <div class="offerings-nav-title" id="offeringsListTitle">Altar Elements</div>
         <ul class="offerings-list" role="list">
-          <li><button class="offering-select-btn active" data-id="flowers" aria-pressed="true"><span aria-hidden="true">🌼</span><span class="offering-btn-label">Marigolds</span></button></li>
-          <li><button class="offering-select-btn" data-id="photo" aria-pressed="false"><span aria-hidden="true">🖼️</span><span class="offering-btn-label">Portrait</span></button></li>
-          <li><button class="offering-select-btn" data-id="candles" aria-pressed="false"><span aria-hidden="true">🕯️</span><span class="offering-btn-label">Candles</span></button></li>
-          <li><button class="offering-select-btn" data-id="bread" aria-pressed="false"><span aria-hidden="true">🍞</span><span class="offering-btn-label">Bread</span></button></li>
-          <li><button class="offering-select-btn" data-id="paper" aria-pressed="false"><span aria-hidden="true">🎏</span><span class="offering-btn-label">Cut paper</span></button></li>
-          <li><button class="offering-select-btn" data-id="copal" aria-pressed="false"><span aria-hidden="true">🪔</span><span class="offering-btn-label">Copal</span></button></li>
-          <li><button class="offering-select-btn" data-id="water" aria-pressed="false"><span aria-hidden="true">💧</span><span class="offering-btn-label">Water</span></button></li>
+          <li><button class="offering-select-btn active" data-id="flowers" aria-pressed="true"><span class="visited-check" aria-hidden="true">✓</span><span class="offering-icon" aria-hidden="true">🌼</span><span class="offering-btn-label">Marigolds</span></button></li>
+          <li><button class="offering-select-btn" data-id="photo" aria-pressed="false"><span class="visited-check" aria-hidden="true">✓</span><span class="offering-icon" aria-hidden="true">🖼️</span><span class="offering-btn-label">Portrait</span></button></li>
+          <li><button class="offering-select-btn" data-id="candles" aria-pressed="false"><span class="visited-check" aria-hidden="true">✓</span><span class="offering-icon" aria-hidden="true">🕯️</span><span class="offering-btn-label">Candles</span></button></li>
+          <li><button class="offering-select-btn" data-id="bread" aria-pressed="false"><span class="visited-check" aria-hidden="true">✓</span><span class="offering-icon" aria-hidden="true">🍞</span><span class="offering-btn-label">Bread</span></button></li>
+          <li><button class="offering-select-btn" data-id="paper" aria-pressed="false"><span class="visited-check" aria-hidden="true">✓</span><span class="offering-icon" aria-hidden="true">🎏</span><span class="offering-btn-label">Cut paper</span></button></li>
+          <li><button class="offering-select-btn" data-id="copal" aria-pressed="false"><span class="visited-check" aria-hidden="true">✓</span><span class="offering-icon" aria-hidden="true">🪔</span><span class="offering-btn-label">Copal</span></button></li>
+          <li><button class="offering-select-btn" data-id="water" aria-pressed="false"><span class="visited-check" aria-hidden="true">✓</span><span class="offering-icon" aria-hidden="true">💧</span><span class="offering-btn-label">Water</span></button></li>
         </ul>
       </nav>
 
@@ -93,6 +125,12 @@
         <button data-tab="variations" aria-pressed="false">VARIATIONS</button>
       </div>
       <div class="tabcopy" id="tabcopy"></div>
+
+      <!-- Specific Institutional Sources with direct links for current offering -->
+      <div class="offering-detail-sources" id="offeringDetailSources">
+        <h4 id="offeringSourcesTitle">Verified Institutional References</h4>
+        <ul id="offeringSourcesList" class="offering-sources-list"></ul>
+      </div>
 
       <div class="item-sources" id="itemSources"></div>
 

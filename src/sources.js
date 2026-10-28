@@ -6,8 +6,8 @@ export const sources = {
       es: "¿Conoces el significado de los elementos de una ofrenda de Día de Muertos?"
     },
     description: {
-      en: "Mexican Indigenous Peoples institute guidance on water, candles, copal, flowers, food and remembrance.",
-      es: "Explicaciones del INPI sobre el agua, las velas, el copal, las flores, los alimentos y la memoria."
+      en: "Official National Institute of Indigenous Peoples analysis on water, candles, copal, flowers, food and remembrance. Note: Protected by government anti-bot verification.",
+      es: "Análisis del Instituto Nacional de los Pueblos Indígenas sobre el agua, las velas, el copal, las flores, los alimentos y la memoria. Nota: Protegido por verificación anti-bot oficial."
     },
     url: "https://www.gob.mx/inpi/articulos/conoces-el-significado-de-los-elementos-de-una-ofrenda-de-dia-de-muertos?_amp=true"
   },
@@ -18,8 +18,8 @@ export const sources = {
       es: "Ofrendas para los muertos"
     },
     description: {
-      en: "A concise institutional overview of altar objects and the importance of regional differences.",
-      es: "Una descripción institucional de los elementos de las ofrendas y las variaciones regionales."
+      en: "Authoritative National Institute of Anthropology and History overview documenting traditional offerings, regional diversity, and family customs.",
+      es: "Reseña oficial del Instituto Nacional de Antropología e Historia documentando los elementos tradicionales, la diversidad regional y las costumbres familiares."
     },
     url: "https://www.inah.gob.mx/foto-del-dia/ofrendas-para-los-muertos"
   },
@@ -30,20 +30,20 @@ export const sources = {
       es: "Festividad indígena dedicada a los muertos"
     },
     description: {
-      en: "Cultural context, remembrance and the return of loved ones in Indigenous Mexican traditions.",
-      es: "Contexto cultural, memoria y el regreso de los seres queridos en tradiciones indígenas de México."
+      en: "UNESCO Intangible Cultural Heritage inscription (00054) recognizing Mexican commemorative rites, community remembrance, and seasonal harvest practices.",
+      es: "Inscripción en el Patrimonio Cultural Inmaterial de la UNESCO (00054) reconociendo los ritos conmemorativos mexicanos, el recuerdo comunitario y las cosechas."
     },
     url: "https://ich.unesco.org/en/RL/dia-de-muertos-the-indigenous-festivity-dedicated-to-the-dead-00054"
   },
   levels: {
-    publisher: "Government of the State of Mexico",
+    publisher: "Government of the State of Mexico (Archival Notice)",
     name: {
       en: "Day of the Dead: altars and levels",
       es: "Día de Muertos: altares y niveles"
     },
     description: {
-      en: "Examples of two-, three-, and seven-level altars; not a rule for every region.",
-      es: "Ejemplos de altares de dos, tres y siete niveles; no es una regla universal."
+      en: "Regional state portal documentation on two-, three-, and seven-level altar tiers. Notice: Regional state server frequently experiences gateway timeouts.",
+      es: "Documentación regional sobre altares de dos, tres y siete niveles. Aviso: El servidor estatal regional suele presentar tiempos de espera agotados."
     },
     url: "https://edomex.gob.mx/dia-de-muertos"
   }
