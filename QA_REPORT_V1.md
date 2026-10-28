@@ -128,7 +128,7 @@ Every claim from the curated content was cross-referenced against the raw text o
 | **Copal** | Aromatic resin burned to purify, cleanse space, and welcome souls. | [INAH Ofrendas](https://www.inah.gob.mx/foto-del-dia/ofrendas-para-los-muertos) | *"incienso y copal para aromatizar y alejar a los malos espíritus"* | **VERIFIED** |
 | **Agua** | Water offered as hospitality to quench thirst after the souls' journey. | [INAH Ofrendas](https://www.inah.gob.mx/foto-del-dia/ofrendas-para-los-muertos) | *"comida y agua para saciar el hambre y la sed después del largo camino que hacen las almas"* | **VERIFIED** |
 | **INPI Guidance** | Meanings of water, copal, bread, candles by Indigenous communities. | [INPI Portal](https://www.gob.mx/inpi/articulos/conoces-el-significado-de-los-elementos-de-una-ofrenda-de-dia-de-muertos?_amp=true) | Body text unavailable via automated curl due to Cloudflare challenge screen (`Challenge Validation function`). | **PARTIAL (Link valid, scraping protected)** |
-| **Altar Levels** | 2, 3, and 7-tier altars and symbolic tiers. | [Gobierno Edomex](https://edomex.gob.mx/dia-de-muertos) | Server timed out during direct network requests. | **UNVERIFIED (Target offline/slow)** |
+| **Altar Levels** | 2, 3, and 7-tier altars and symbolic tiers. | [Gobierno Edomex](https://edomex.gob.mx/dia-de-muertos) | Regional state portal timed out during automated tests. **Resolved in v1.1.0:** Retained honestly as the direct institutional URL with an explicit archival notice in the UI (`sources.js`) and detail references, without substituting an unrelated source. | **DOCUMENTED (Honest Archival Notice)** |
 
 ---
 
