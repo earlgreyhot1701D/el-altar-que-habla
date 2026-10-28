@@ -105,6 +105,15 @@ test("Priority 4: Visitor Experience - bilingual labels and exploration tracking
     assert.ok(l.progress.complete, `Missing progress complete message for ${lang}`);
 
     assert.ok(l.detailSourcesTitle, `Missing detailSourcesTitle for ${lang}`);
+    assert.equal(l.detailSourcesTitle.includes("Verified"), false, "Heading must be neutral ('Institutional Sources'), not 'Verified Institutional References'");
   });
 });
+
+test("Cultural Accuracy: Bread variations qualify regional and community diversity without unsupported monolithic claims", () => {
+  const enVariations = content.bread.en.variations;
+  const esVariations = content.bread.es.variations;
+  assert.ok(enVariations.includes("Different regions and communities"), "Bread variations acknowledges diverse regional communities");
+  assert.ok(esVariations.includes("diversas regiones y comunidades"), "Bread variations in Spanish acknowledges community diversity");
+});
+
 

@@ -85,7 +85,7 @@ export const content = {
       note: "La memoria también vive en los sabores que compartimos.",
       context: "El pan se coloca junto a otras comidas y bebidas significativas.",
       history: "Las recetas y formas del pan de muerto han evolucionado con el tiempo.",
-      variations: "En Oaxaca y otras regiones existen panes y presentaciones distintas."
+      variations: "En diversas regiones y comunidades existen recetas, adornos y panes tradicionales con formas locales variadas."
     },
     en: {
       category: "BREAD OF THE DEAD",
@@ -96,7 +96,7 @@ export const content = {
       note: "Memory also lives in the flavors we share.",
       context: "Bread sits alongside other meaningful foods and drinks.",
       history: "Recipes and shapes have changed over time.",
-      variations: "Oaxaca and other regions have distinctive breads and presentations."
+      variations: "Different regions and communities prepare diverse traditional breads, shapes, and local preparations."
     }
   },
   paper: {
@@ -186,11 +186,11 @@ export const labels = {
     hint: "✦ Selecciona un símbolo para descubrir su historia",
     ask: "PREGUNTA SOBRE ESTE ELEMENTO",
     placeholder: "¿Qué significa este símbolo?",
-    foot: "Demostración sin conexión a IA: las respuestas provienen de contenido predefinido. Las tradiciones varían según la comunidad y la familia.",
+    foot: "Respuestas generadas con asistencia de IA (Gemma 4) fundamentadas en fuentes institucionales. Si el servicio no está disponible o no hay conexión, se muestra una explicación curada sin IA. Las tradiciones varían según la comunidad y la familia.",
     tabs: ["CONTEXTO", "HISTORIA", "VARIACIONES"],
     offeringsListTitle: "Elementos de la ofrenda",
     resetAria: "Reiniciar selección",
-    askButtonAria: "Mostrar explicación preparada",
+    askButtonAria: "Consultar explicación",
     stageHeading: "UNA OFRENDA PARA RECORDAR",
     brandSubtitle: "Tradición · Memoria · Vida",
     quote: "«El recuerdo le da al amor un lugar donde reunirse».",
@@ -216,22 +216,22 @@ export const labels = {
       layers: "Los altares pueden tener diferentes números de niveles. Su disposición y simbolismo varían por comunidad y familia.",
       objects: "Selecciona cualquiera de los siete símbolos iluminados en la ofrenda."
     },
-    answerPrefix: "Respuesta de la guía (sin IA): ",
+    answerPrefix: "Guía curada (sin IA): ",
     gemmaPrefix: "Guía Gemma 4 (IA con fuentes): ",
     thinkingMessage: "Consultando con Gemma...",
     intro: {
       badge: "BIENVENIDOS · WELCOME",
       title: "Adéntrate en la Ofrenda",
-      text: "Bienvenido a El Altar que Habla. El Día de Muertos es una celebración viva de memoria, respeto y hospitalidad en México. Explora siete ofrendas sagradas en el altar, descubre sus significados basados en instituciones culturales y conversa con nuestra guía Gemma basada en fuentes.",
+      text: "Bienvenido a El Altar que Habla. El Día de Muertos es una celebración viva de memoria, respeto y hospitalidad en México. Explora siete ofrendas sagradas en el altar, descubre sus historias documentadas por instituciones culturales y dialoga con nuestra guía asistida por Gemma 4.",
       begin: "Comenzar exploración",
-      skip: "Saltar",
+      skip: "Saltar introducción",
       dismiss: "Cerrar bienvenida"
     },
     progress: {
       title: "Ofrendas exploradas",
       complete: "Todas las ofrendas han sido honradas con reverencia"
     },
-    detailSourcesTitle: "Referencias Institucionales Específicas"
+    detailSourcesTitle: "Fuentes Institucionales"
   },
   en: {
     explore: "Explore",
@@ -242,11 +242,11 @@ export const labels = {
     hint: "✦ Select a symbol to discover its story",
     ask: "ASK ABOUT THIS ELEMENT",
     placeholder: "What does this symbol mean?",
-    foot: "Curated cultural content with Gemma 4 assistance. Offline fallback active when disconnected. Traditions vary by community and family.",
+    foot: "Answers generated with Gemma 4 AI grounded in institutional sources. When disconnected or unavailable, a curated non-AI explanation is provided. Traditions vary by community and family.",
     tabs: ["CONTEXT", "HISTORY", "VARIATIONS"],
     offeringsListTitle: "Altar Elements",
     resetAria: "Reset selection",
-    askButtonAria: "Show curated explanation",
+    askButtonAria: "Show explanation",
     stageHeading: "AN OFRENDA TO REMEMBER",
     brandSubtitle: "Tradition · Memory · Life",
     quote: "“Remembrance gives love a place to gather.”",
@@ -280,13 +280,13 @@ export const labels = {
       title: "Step into the Ofrenda",
       text: "Welcome to El Altar que Habla. Día de los Muertos is a living Mexican celebration of memory, respect, and hospitality. Explore seven sacred offerings across the altar, learn their stories grounded in institutional archives, and converse with our grounded Gemma guide.",
       begin: "Begin Exploration",
-      skip: "Skip",
+      skip: "Skip Introduction",
       dismiss: "Dismiss welcome"
     },
     progress: {
       title: "Offerings Explored",
       complete: "All offerings honored with reverence"
     },
-    detailSourcesTitle: "Verified Institutional References"
+    detailSourcesTitle: "Institutional Sources"
   }
 };

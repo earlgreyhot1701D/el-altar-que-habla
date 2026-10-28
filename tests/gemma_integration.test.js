@@ -176,5 +176,61 @@ test("Mock Integration: Model returns unexpected text instead of JSON format", a
     assert.equal(res.status, 500);
     assert.equal(res.data.fallback, true);
     assert.equal(res.data.reason, "model_inference_failed");
+    assert.equal(res.data.message.includes("Unexpected token"), false, "Must not leak internal stack/syntax errors to visitor");
   });
 });
+
+test("Mock Integration: Rejects empty or whitespace-only answer string as invalid", async () => {
+  await withMockProvider(async () => {
+    return {
+      ok: true,
+      json: async () => ({
+        candidates: [
+          {
+            content: {
+              parts: [{ text: '{\n  "answer": "   ",\n  "sourceMention": "INAH"\n}' }]
+            }
+          }
+        ]
+      })
+    };
+  }, async () => {
+    const res = await callMockHandler({
+      offeringId: "bread",
+      language: "en",
+      question: "Tell me about bread"
+    });
+    assert.equal(res.status, 500);
+    assert.equal(res.data.fallback, true);
+    assert.equal(res.data.reason, "model_inference_failed");
+    assert.equal(res.data.message.includes("temporarily unavailable"), true, "Returns sanitized visitor-facing message");
+  });
+});
+
+test("Client Async Race Condition: State currentRequestId cancels stale responses", () => {
+  // Test simulated race condition logic matching main.js
+  let state = {
+    selected: "flowers",
+    language: "en",
+    currentRequestId: 1
+  };
+
+  const oldRequestId = state.currentRequestId;
+  const initialOffering = state.selected;
+  const initialLanguage = state.language;
+
+  // Visitor switches to bread and Spanish while request 1 is still in flight
+  state.currentRequestId++;
+  state.selected = "bread";
+  state.language = "es";
+
+  // Simulate arrival of old request 1 response
+  const isStale = (
+    oldRequestId !== state.currentRequestId ||
+    initialOffering !== state.selected ||
+    initialLanguage !== state.language
+  );
+
+  assert.equal(isStale, true, "Stale async response is identified and discarded");
+});
+

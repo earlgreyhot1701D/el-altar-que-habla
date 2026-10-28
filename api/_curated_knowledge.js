@@ -62,8 +62,8 @@ export const APPROVED_OFFERINGS = {
       es: "Las recetas y formas del pan de muerto han evolucionado con el tiempo."
     },
     variations: {
-      en: "Oaxaca and other regions have distinctive breads and presentations.",
-      es: "En Oaxaca y otras regiones existen panes y presentaciones distintas."
+      en: "Different regions and communities prepare diverse traditional breads, shapes, and local preparations.",
+      es: "En diversas regiones y comunidades existen recetas, adornos y panes tradicionales con formas locales variadas."
     },
     sources: ["INAH"]
   },

@@ -7,7 +7,8 @@ export const state = {
   language: "en",
   selected: "flowers",
   tab: "context",
-  visitedOfferings: new Set(["flowers"])
+  visitedOfferings: new Set(["flowers"]),
+  currentRequestId: 0
 };
 
 const $ = (id) => document.getElementById(id);
@@ -131,7 +132,8 @@ export function render() {
     const id = b.dataset.id;
     const name = l.names[id] || id;
     const isVisited = state.visitedOfferings.has(id);
-    b.setAttribute("aria-label", (isEn ? "Select " : "Seleccionar ") + name);
+    const visitedNotice = isVisited ? (isEn ? " (explored)" : " (explorado)") : "";
+    b.setAttribute("aria-label", `${isEn ? "Select " : "Seleccionar "}${name}${visitedNotice}`);
     b.setAttribute("aria-pressed", String(id === state.selected));
     b.classList.toggle("active", id === state.selected);
     b.classList.toggle("is-visited", isVisited);
@@ -226,6 +228,7 @@ export function render() {
 }
 
 export function selectOffering(id) {
+  state.currentRequestId++;
   state.selected = id;
   state.visitedOfferings.add(id);
   state.tab = "context";
@@ -248,6 +251,9 @@ export async function ask() {
   const d = content[currentOffering][currentLang];
   const l = labels[currentLang];
 
+  // Increment and capture request ID to guard against out-of-order race conditions
+  const thisRequestId = ++state.currentRequestId;
+
   // Set loading state
   $("answer").textContent = l.thinkingMessage || "Consulting...";
   $("question").value = "";
@@ -263,8 +269,18 @@ export async function ask() {
       })
     });
 
+    // Guard: ignore response if user navigated to a different offering, switched language, or submitted a newer question
+    if (thisRequestId !== state.currentRequestId || state.selected !== currentOffering || state.language !== currentLang) {
+      return;
+    }
+
     if (!res.ok) throw new Error(`HTTP_${res.status}`);
     const data = await res.json();
+
+    // Guard again after parsing JSON
+    if (thisRequestId !== state.currentRequestId || state.selected !== currentOffering || state.language !== currentLang) {
+      return;
+    }
 
     if (data.success && data.answer) {
       const citation = data.sourceMention ? ` (${data.sourceMention})` : "";
@@ -275,9 +291,57 @@ export async function ask() {
     // Fallback if model was unavailable
     $("answer").textContent = `${l.answerPrefix}${d.context} ${d.variations}`;
   } catch (err) {
+    // Guard in error handler
+    if (thisRequestId !== state.currentRequestId || state.selected !== currentOffering || state.language !== currentLang) {
+      return;
+    }
     // Graceful offline & error fallback
     $("answer").textContent = `${l.answerPrefix}${d.context} ${d.variations}`;
   }
+}
+
+let previouslyFocusedElement = null;
+
+export function trapFocus(event) {
+  const modal = $("introModal");
+  if (!modal || modal.hidden) return;
+
+  const focusable = modal.querySelectorAll('button:not([disabled]), [tabindex]:not([tabindex="-1"])');
+  if (focusable.length === 0) return;
+
+  const first = focusable[0];
+  const last = focusable[focusable.length - 1];
+
+  if (event.key === "Tab") {
+    if (event.shiftKey) {
+      if (document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      }
+    } else {
+      if (document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    }
+  }
+}
+
+export function openIntroModal() {
+  const modal = $("introModal");
+  if (!modal) return;
+
+  previouslyFocusedElement = document.activeElement;
+  modal.hidden = false;
+
+  // Inactive background content for screen readers and assistive technology
+  const app = document.querySelector(".app");
+  const sourcesSection = document.getElementById("sourcesSection");
+  if (app) app.setAttribute("aria-hidden", "true");
+  if (sourcesSection) sourcesSection.setAttribute("aria-hidden", "true");
+
+  window.addEventListener("keydown", trapFocus);
+  $("introBeginBtn")?.focus();
 }
 
 export function dismissIntroModal() {
@@ -287,9 +351,22 @@ export function dismissIntroModal() {
     try {
       localStorage.setItem("altar_intro_seen", "true");
     } catch (_) {}
-    // Return focus gracefully to main stage
-    const firstHotspot = document.querySelector(".hotspot");
-    if (firstHotspot) firstHotspot.focus();
+
+    window.removeEventListener("keydown", trapFocus);
+
+    // Restore background content visibility
+    const app = document.querySelector(".app");
+    const sourcesSection = document.getElementById("sourcesSection");
+    if (app) app.removeAttribute("aria-hidden");
+    if (sourcesSection) sourcesSection.removeAttribute("aria-hidden");
+
+    // Restore focus gracefully to previously focused element or first hotspot
+    if (previouslyFocusedElement && typeof previouslyFocusedElement.focus === "function") {
+      previouslyFocusedElement.focus();
+    } else {
+      const firstHotspot = document.querySelector(".hotspot");
+      if (firstHotspot) firstHotspot.focus();
+    }
   }
 }
 
@@ -305,9 +382,7 @@ export function init() {
     if (seen) {
       modal.hidden = true;
     } else {
-      modal.hidden = false;
-      // Focus the primary action button for keyboard users
-      $("introBeginBtn")?.focus();
+      openIntroModal();
     }
 
     $("introDismissX")?.addEventListener("click", dismissIntroModal);
@@ -340,9 +415,10 @@ export function init() {
     })
   );
 
-  // Language clicks - preserve selected tab and visited offerings
+  // Language clicks - preserve selected tab and visited offerings, invalidate pending async requests
   ["es", "en"].forEach((lang) =>
     $(lang).addEventListener("click", () => {
+      state.currentRequestId++;
       state.language = lang;
       $("answer").textContent = "";
       render();
@@ -351,6 +427,7 @@ export function init() {
 
   // Reset click
   $("reset").addEventListener("click", () => {
+    state.currentRequestId++;
     state.selected = "flowers";
     state.tab = "context";
     $("answer").textContent = "";

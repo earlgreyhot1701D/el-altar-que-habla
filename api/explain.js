@@ -102,9 +102,9 @@ export default async function handler(req, res) {
     const data = await apiRes.json();
     const result = extractJson(data);
 
-    // Validate model output shape
-    if (!result || typeof result.answer !== "string") {
-      throw new Error("Invalid model response format");
+    // Validate model output shape and non-empty answer
+    if (!result || typeof result.answer !== "string" || !result.answer.trim()) {
+      throw new Error("Invalid or empty model response format");
     }
 
     // Verify model did not inject unauthorized sources
@@ -124,7 +124,9 @@ export default async function handler(req, res) {
     return res.status(isTimeout ? 504 : 500).json({
       fallback: true,
       reason: isTimeout ? "model_timeout" : "model_inference_failed",
-      message: isTimeout ? "Gemma request timed out" : err.message
+      message: isTimeout
+        ? "Gemma request timed out"
+        : "The cultural explanation service is temporarily unavailable. Using curated guidance."
     });
   } finally {
     clearTimeout(timer);
