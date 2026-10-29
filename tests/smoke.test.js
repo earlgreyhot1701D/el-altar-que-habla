@@ -137,3 +137,14 @@ test("Hotspots: exactly seven hotspot buttons mapped to the seven sacred offerin
 });
 
 
+
+test("Water recap has distinct bilingual context and matches the Gemma knowledge", async () => {
+  const { APPROVED_OFFERINGS } = await import("../api/_curated_knowledge.js");
+  for (const language of ["en", "es"]) {
+    assert.notEqual(content.water[language].description, content.water[language].context);
+    for (const field of ["context", "history", "variations"]) {
+      assert.equal(content.water[language][field], APPROVED_OFFERINGS.water[field][language]);
+    }
+    assert.match(content.water[language].history, /INPI/);
+  }
+});

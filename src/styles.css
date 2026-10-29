@@ -1065,3 +1065,155 @@ button {
 @media (max-width: 850px) {
   .stage { min-height: 0; padding: 42px 0 68px; }
 }
+
+/* Equal side rails keep the altar on the page's center line. */
+.app {
+  grid-template-columns: minmax(220px, 300px) minmax(0, 1fr) minmax(220px, 300px);
+  max-width: 1800px;
+  align-items: start;
+}
+
+.sidebar { padding: 22px 18px; min-height: 100svh; }
+.brand h1 { font-size: 26px; margin: 10px 0 6px; }
+.brand h1::after { font-size: 11px; margin-top: 8px; }
+.brand .flower { font-size: 22px; }
+.brand em { font-size: 13px; }
+.ornament { margin: 10px 0; }
+.nav button { padding: 10px 12px; gap: 10px; font-size: 13px; }
+.quote { margin-top: 20px; font-size: 16px; }
+.sidebar-bottom { margin-top: 18px; }
+
+.stage {
+  min-height: 100svh;
+  justify-content: center;
+  padding: 24px 0 92px;
+  background: var(--night);
+}
+
+.scene-frame {
+  width: min(100%, max(360px, calc((100svh - 130px) * 0.8366)));
+  flex: 0 1 auto;
+}
+
+.stage:after { display: none; }
+.hint { bottom: 44px; padding: 10px 14px; font-size: 11px; }
+.selection-notice {
+  position: absolute;
+  bottom: 10px;
+  left: 12px;
+  right: 12px;
+  margin: 0;
+  min-height: 20px;
+  text-align: center;
+  color: var(--gold2);
+  font: 12px Inter, Arial, sans-serif;
+}
+.selection-help { font-size: 13px; line-height: 1.45; color: #c7c5c4; margin: 6px 0 12px; }
+.text-action {
+  min-height: 44px;
+  padding: 6px 0;
+  background: transparent;
+  border: 0;
+  color: var(--gold2);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  font: 12px Inter, Arial, sans-serif;
+}
+.hotspot::after {
+  content: attr(data-name);
+  position: absolute;
+  top: calc(100% + 7px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: max-content;
+  max-width: 140px;
+  padding: 4px 7px;
+  border-radius: 5px;
+  background: #090f1bf2;
+  color: #fff4dc;
+  font: 11px Inter, Arial, sans-serif;
+  pointer-events: none;
+  opacity: 0;
+}
+.hotspot:hover::after, .hotspot:focus-visible::after, .hotspot.selected::after { opacity: 1; }
+
+.panel {
+  position: sticky;
+  top: 16px;
+  min-height: 0;
+  max-height: calc(100svh - 32px);
+  overflow-y: auto;
+  width: calc(100% - 16px);
+  margin: 16px auto;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+.panel[hidden] { display: none; }
+.panel-purpose { display: block; color: #c7c5c4; font: 11px Inter, Arial, sans-serif; margin-bottom: 4px; }
+.panel h2 { font-size: 28px; }
+.subtitle { font-size: 18px; margin-bottom: 10px; }
+.description { font-size: 15px; line-height: 1.5; margin-bottom: 8px; }
+.detail-hero { height: 112px; margin: 10px 0; flex-shrink: 0; }
+.tabs { margin-top: 10px; }
+.tabcopy { min-height: 0; margin-top: 10px; font-size: 14px; line-height: 1.5; }
+.ask { margin-top: 14px; }
+.footnote { margin-top: 10px; }
+.offering-detail-sources { margin-top: 12px; padding: 10px; }
+.offering-detail-sources summary { cursor: pointer; color: var(--gold2); font: 11px Inter, Arial, sans-serif; }
+.offering-detail-sources[open] .offering-sources-list { margin-top: 12px; }
+
+#offeringsDialog {
+  width: min(650px, calc(100vw - 32px));
+  max-height: calc(100svh - 32px);
+  padding: 22px;
+  border: 1px solid var(--gold);
+  border-radius: 14px;
+  background: var(--panel);
+  color: #f9edda;
+}
+#offeringsDialog::backdrop { background: #04070dcc; }
+.chooser-top { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.chooser-top h2 { margin: 0; color: var(--gold2); font-size: 28px; }
+#chooserHelp { color: #c7c5c4; line-height: 1.5; }
+.chooser-options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.chooser-option {
+  display: grid;
+  gap: 6px;
+  text-align: left;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #131c2b;
+  color: #f9edda;
+}
+.chooser-option strong { color: var(--gold2); font-size: 19px; }
+.chooser-option span { font-size: 14px; }
+.chooser-action { color: var(--gold); }
+.text-action:focus-visible, .chooser-option:focus-visible, summary:focus-visible, #altarStage:focus-visible {
+  outline: 3px solid #ffce76;
+  outline-offset: 3px;
+}
+
+@media (min-width: 851px) and (max-width: 1200px) {
+  .app { grid-template-columns: 240px minmax(0, 1fr) 240px; }
+  .panel { padding: 12px; }
+  .panel h2 { font-size: 25px; }
+}
+
+@media (max-width: 850px) {
+  .app { grid-template-columns: 1fr; }
+  .sidebar { min-height: 0; padding: 10px 14px; }
+  .brand h1 { font-size: 20px; }
+  .sidebar-bottom { margin: 0; }
+  .selection-help { margin: 4px 0 8px; }
+  .stage { min-height: 0; padding: 10px 0 102px; }
+  .scene-frame { width: 100%; }
+  .hint { bottom: 48px; max-width: calc(100% - 24px); }
+  .panel { position: static; max-height: none; width: calc(100% - 24px); margin: 12px auto 24px; padding: 16px; }
+}
+
+@media (max-width: 480px) {
+  .chooser-options { grid-template-columns: 1fr; }
+  .hotspot::after { max-width: 100px; font-size: 10px; }
+}
