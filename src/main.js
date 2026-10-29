@@ -266,6 +266,23 @@ export function selectOffering(id) {
   focusDestination($("title"));
 }
 
+function showAnswer(mode, label, text, note = "") {
+  const answer = $("answer");
+  answer.dataset.mode = mode;
+  const heading = document.createElement("strong");
+  heading.className = "answer-kind";
+  heading.textContent = label;
+  const body = document.createElement("p");
+  body.textContent = text;
+  answer.replaceChildren(heading, body);
+  if (note) {
+    const referenceNote = document.createElement("p");
+    referenceNote.className = "answer-note";
+    referenceNote.textContent = note;
+    answer.append(referenceNote);
+  }
+}
+
 export async function ask() {
   const q = $("question").value.trim();
   if (!q || !state.selected) return;
@@ -279,6 +296,7 @@ export async function ask() {
   const thisRequestId = ++state.currentRequestId;
 
   // Set loading state
+  $("answer").dataset.mode = "loading";
   $("answer").textContent = l.thinkingMessage || "Consulting...";
   $("question").value = "";
 
@@ -308,19 +326,19 @@ export async function ask() {
 
     if (data.success && data.answer) {
       // Background reading is displayed separately, never attached as claim verification.
-      $("answer").textContent = `${l.gemmaPrefix}${data.answer} ${l.aiReferenceNotice}`;
+      showAnswer("ai", l.gemmaPrefix, data.answer, l.aiReferenceNotice);
       return;
     }
 
     // Fallback if model was unavailable
-    $("answer").textContent = `${l.answerPrefix}${d.context} ${d.variations}`;
+    showAnswer("curated", l.answerPrefix, `${d.context} ${d.variations}`);
   } catch (err) {
     // Guard in error handler
     if (thisRequestId !== state.currentRequestId || state.selected !== currentOffering || state.language !== currentLang) {
       return;
     }
     // Graceful offline & error fallback
-    $("answer").textContent = `${l.answerPrefix}${d.context} ${d.variations}`;
+    showAnswer("curated", l.answerPrefix, `${d.context} ${d.variations}`);
   }
 }
 
