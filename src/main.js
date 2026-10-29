@@ -14,7 +14,6 @@ export const state = {
 const $ = (id) => document.getElementById(id);
 
 export function renderSources() {
-  const en = state.language === "en";
   const l = labels[state.language];
 
   $("sourcesKicker").textContent = l.sourcesKicker;
@@ -42,22 +41,6 @@ export function renderSources() {
       return card;
     })
   );
-
-  $("itemSources").replaceChildren();
-  const label = document.createElement("span");
-  label.textContent = l.supportingSources;
-  $("itemSources").append(label);
-
-  const mapped = itemSourceMap[state.selected] || [];
-  mapped.forEach((id, i) => {
-    if (i > 0) $("itemSources").append(document.createTextNode(" · "));
-    const a = document.createElement("a");
-    a.href = sources[id].url;
-    a.target = "_blank";
-    a.rel = "noopener noreferrer";
-    a.textContent = sources[id].publisher.split(" · ")[0];
-    $("itemSources").append(a);
-  });
 }
 
 export function renderOfferingDetailSources() {
@@ -107,7 +90,7 @@ export function render() {
   if (stage) stage.setAttribute("aria-label", l.stageAria);
 
   const scene = document.querySelector(".scene");
-  if (scene) scene.setAttribute("aria-label", l.sceneAria);
+  if (scene) scene.setAttribute("alt", l.sceneAria);
 
   $("stageHeading").textContent = l.stageHeading;
   const brandEm = document.querySelector(".brand em");
@@ -119,7 +102,7 @@ export function render() {
   document.querySelectorAll(".hotspot").forEach((b) => {
     const id = b.dataset.id;
     const name = l.names[id] || id;
-    b.setAttribute("aria-label", (isEn ? "Explore " : "Explorar ") + name);
+    b.setAttribute("aria-label", (isEn ? "Explore " : "Explorar ") + name + (state.visitedOfferings.has(id) ? (isEn ? " (explored)" : " (explorado)") : ""));
     b.setAttribute("aria-pressed", String(id === state.selected));
     b.classList.toggle("selected", id === state.selected);
   });
@@ -187,21 +170,6 @@ export function render() {
   $("subtitle").textContent = d.subtitle;
   $("description").textContent = d.description;
 
-  // Facts
-  $("facts").replaceChildren(
-    ...d.facts.map(([symbol, name]) => {
-      const div = document.createElement("div");
-      div.className = "fact";
-      const b = document.createElement("b");
-      b.textContent = symbol;
-      const s = document.createElement("span");
-      s.textContent = name;
-      div.append(b, s);
-      return div;
-    })
-  );
-
-  $("note").textContent = d.note;
   $("tabcopy").textContent = d[state.tab];
   $("hint").textContent = l.hint;
   $("askLabel").textContent = l.ask;
@@ -227,7 +195,27 @@ export function render() {
   $("en").setAttribute("aria-pressed", String(state.language === "en"));
 }
 
+function setActiveNav(section) {
+  document.querySelectorAll("[data-nav]").forEach((button) => {
+    const active = button.dataset.nav === section;
+    button.classList.toggle("active", active);
+    if (active) button.setAttribute("aria-current", "location");
+    else button.removeAttribute("aria-current");
+  });
+}
+
+function focusDestination(element) {
+  if (!element) return;
+  element.focus({ preventScroll: true });
+  element.scrollIntoView({
+    behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth",
+    block: "center"
+  });
+}
+
 export function selectOffering(id) {
+  if (!Object.hasOwn(content, id)) return;
+  setActiveNav("explore");
   state.currentRequestId++;
   state.selected = id;
   state.visitedOfferings.add(id);
@@ -235,10 +223,7 @@ export function selectOffering(id) {
   $("answer").textContent = "";
   render();
   if (window.innerWidth <= 850) {
-    document.querySelector(".panel")?.scrollIntoView({
-      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth",
-      block: "start"
-    });
+    focusDestination($("title"));
   }
 }
 
@@ -283,8 +268,8 @@ export async function ask() {
     }
 
     if (data.success && data.answer) {
-      const citation = data.sourceMention ? ` (${data.sourceMention})` : "";
-      $("answer").textContent = `${l.gemmaPrefix}${data.answer}${citation}`;
+      // Background reading is displayed separately, never attached as claim verification.
+      $("answer").textContent = `${l.gemmaPrefix}${data.answer} ${l.aiReferenceNotice}`;
       return;
     }
 
@@ -334,11 +319,11 @@ export function openIntroModal() {
   previouslyFocusedElement = document.activeElement;
   modal.hidden = false;
 
-  // Inactive background content for screen readers and assistive technology
+  // Inert also prevents keyboard and pointer interaction with the background.
   const app = document.querySelector(".app");
   const sourcesSection = document.getElementById("sourcesSection");
-  if (app) app.setAttribute("aria-hidden", "true");
-  if (sourcesSection) sourcesSection.setAttribute("aria-hidden", "true");
+  if (app) app.inert = true;
+  if (sourcesSection) sourcesSection.inert = true;
 
   window.addEventListener("keydown", trapFocus);
   $("introBeginBtn")?.focus();
@@ -357,14 +342,14 @@ export function dismissIntroModal() {
     // Restore background content visibility
     const app = document.querySelector(".app");
     const sourcesSection = document.getElementById("sourcesSection");
-    if (app) app.removeAttribute("aria-hidden");
-    if (sourcesSection) sourcesSection.removeAttribute("aria-hidden");
+    if (app) app.inert = false;
+    if (sourcesSection) sourcesSection.inert = false;
 
     // Restore focus gracefully to previously focused element or first hotspot
-    if (previouslyFocusedElement && typeof previouslyFocusedElement.focus === "function") {
+    if (previouslyFocusedElement?.isConnected && previouslyFocusedElement !== document.body && !modal.contains(previouslyFocusedElement)) {
       previouslyFocusedElement.focus();
     } else {
-      const firstHotspot = document.querySelector(".hotspot");
+      const firstHotspot = document.querySelector(".hotspot.selected") || document.querySelector(".hotspot");
       if (firstHotspot) firstHotspot.focus();
     }
   }
@@ -425,80 +410,38 @@ export function init() {
     })
   );
 
-  // Reset click
-  $("reset").addEventListener("click", () => {
-    state.currentRequestId++;
-    state.selected = "flowers";
-    state.tab = "context";
-    $("answer").textContent = "";
-    render();
+  // The three section controls share the same focus/scroll contract.
+  $("reset").addEventListener("click", () => selectOffering("flowers"));
+  $("navExplore").addEventListener("click", () => {
+    setActiveNav("explore");
+    focusDestination(document.querySelector(".hotspot.selected"));
   });
-
-  // Navigation sidebar items with clear, functional destinations
-  const navExplore = document.getElementById("navExplore");
-  const navOfferings = document.getElementById("navOfferings");
-  const navSources = document.getElementById("navSources");
-
-  function setActiveNav(activeBtn) {
-    document.querySelectorAll("[data-nav]").forEach((b) => {
-      b.classList.remove("active");
-      b.setAttribute("aria-current", "false");
-    });
-    if (activeBtn) {
-      activeBtn.classList.add("active");
-      activeBtn.setAttribute("aria-current", "page");
-    }
-  }
-
-  if (navExplore) {
-    navExplore.addEventListener("click", () => {
-      setActiveNav(navExplore);
-      const stage = document.querySelector(".stage");
-      if (stage) {
-        stage.scrollIntoView({
-          behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth",
-          block: "start"
-        });
-      }
-      const activeHotspot = document.querySelector(".hotspot.active") || document.querySelector(".hotspot");
-      activeHotspot?.focus();
-    });
-  }
-
-  if (navOfferings) {
-    navOfferings.addEventListener("click", () => {
-      setActiveNav(navOfferings);
-      const offeringsNav = document.querySelector(".offerings-nav");
-      if (offeringsNav) {
-        offeringsNav.scrollIntoView({
-          behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth",
-          block: "nearest"
-        });
-      }
-      const activeOfferingBtn = document.querySelector(".offering-select-btn.active") || document.querySelector(".offering-select-btn");
-      activeOfferingBtn?.focus();
-    });
-  }
-
-  if (navSources) {
-    navSources.addEventListener("click", () => {
-      setActiveNav(navSources);
-      const sourcesSection = document.getElementById("sourcesSection");
-      if (sourcesSection) {
-        sourcesSection.scrollIntoView({
-          behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth",
-          block: "start"
-        });
-        sourcesSection.focus?.();
-      }
-    });
-  }
+  $("navOfferings").addEventListener("click", () => {
+    setActiveNav("offerings");
+    focusDestination(document.querySelector(".offering-select-btn.active"));
+  });
+  $("navSources").addEventListener("click", () => {
+    setActiveNav("sources");
+    focusDestination($("sourcesHeading"));
+  });
 
   // Question Q&A input
   $("askButton").addEventListener("click", ask);
   $("question").addEventListener("keydown", (e) => {
     if (e.key === "Enter") ask();
   });
+
+  if ("IntersectionObserver" in window) {
+    const observer = new IntersectionObserver((entries) => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) {
+          setActiveNav(entry.target.id === "sourcesHeading" ? "sources" : "explore");
+        }
+      }
+    }, { threshold: 0.5 });
+    observer.observe($("sourcesHeading"));
+    observer.observe(document.querySelector(".scene-frame"));
+  }
 
   // Initial render
   render();

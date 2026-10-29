@@ -7,9 +7,11 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "test": "node --test tests/smoke.test.js tests/gemma.test.js tests/gemma_integration.test.js"
+    "test": "node --test tests/smoke.test.js tests/gemma.test.js tests/gemma_integration.test.js",
+    "test:e2e": "playwright test"
   },
   "devDependencies": {
+    "@playwright/test": "^1.64.1",
     "vite": "^6.2.0"
   }
 }

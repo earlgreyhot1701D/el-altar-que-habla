@@ -35,7 +35,7 @@ export default async function handler(req, res) {
   const { offeringId, language, question } = req.body || {};
 
   // Validate offering ID strictly against server-side approved list
-  if (!offeringId || !APPROVED_OFFERINGS[offeringId]) {
+  if (typeof offeringId !== "string" || !Object.hasOwn(APPROVED_OFFERINGS, offeringId)) {
     return res.status(400).json({ error: "Invalid or unsupported offering ID" });
   }
 
@@ -57,29 +57,30 @@ export default async function handler(req, res) {
     });
   }
 
-  const lang = language === "es" ? "es" : "en";
-  const prompt = buildPrompt({
-    offeringId,
-    language: lang,
-    userQuestion: cleanQuestion
-  });
-
-  const payload = {
-    contents: [{ role: "user", parts: [{ text: prompt }] }],
-    generationConfig: {
-      temperature: 0.3,
-      maxOutputTokens: 350,
-      responseMimeType: "application/json"
-    }
-  };
-
-  const tc = thinkingConfig();
-  if (tc) payload.generationConfig.thinkingConfig = tc;
-
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
-
+  let timer;
   try {
+    const lang = language === "es" ? "es" : "en";
+    const prompt = buildPrompt({
+      offeringId,
+      language: lang,
+      userQuestion: cleanQuestion
+    });
+
+    const payload = {
+      contents: [{ role: "user", parts: [{ text: prompt }] }],
+      generationConfig: {
+        temperature: 0.3,
+        maxOutputTokens: 350,
+        responseMimeType: "application/json"
+      }
+    };
+
+    const tc = thinkingConfig();
+    if (tc) payload.generationConfig.thinkingConfig = tc;
+
+    const controller = new AbortController();
+    timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
+
     const apiRes = await fetch(ENDPOINT, {
       method: "POST",
       headers: {
@@ -107,16 +108,16 @@ export default async function handler(req, res) {
       throw new Error("Invalid or empty model response format");
     }
 
-    // Verify model did not inject unauthorized sources
+    // These identify prompt background only; they do not verify generated claims.
     const allowedSources = APPROVED_OFFERINGS[offeringId].sources;
-    const validatedMention = allowedSources.join(" / ");
 
     return res.status(200).json({
       success: true,
       provider: "gemma-4",
       model: MODEL,
       answer: result.answer.trim().slice(0, 500),
-      sourceMention: validatedMention
+      backgroundReferences: allowedSources,
+      attribution: "background_only"
     });
   } catch (err) {
     const isTimeout = err.name === "AbortError";

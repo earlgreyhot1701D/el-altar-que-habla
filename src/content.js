@@ -186,7 +186,7 @@ export const labels = {
     hint: "✦ Selecciona un símbolo para descubrir su historia",
     ask: "PREGUNTA SOBRE ESTE ELEMENTO",
     placeholder: "¿Qué significa este símbolo?",
-    foot: "Respuestas generadas con asistencia de IA (Gemma 4) fundamentadas en fuentes institucionales. Si el servicio no está disponible o no hay conexión, se muestra una explicación curada sin IA. Las tradiciones varían según la comunidad y la familia.",
+    foot: "Gemma 4 genera respuestas a partir de contexto curado. Los enlaces institucionales son lecturas de contexto, no verificación de cada afirmación generada. Si el servicio no está disponible o no hay conexión, se muestra una explicación curada sin IA. Las tradiciones varían según la comunidad y la familia.",
     tabs: ["CONTEXTO", "HISTORIA", "VARIACIONES"],
     offeringsListTitle: "Elementos de la ofrenda",
     resetAria: "Reiniciar selección",
@@ -215,7 +215,8 @@ export const labels = {
     offerings: "Las siete ofrendas",
     sources: "Fuentes y lecturas",
     answerPrefix: "Guía curada (sin IA): ",
-    gemmaPrefix: "Guía Gemma 4 (IA con fuentes): ",
+    gemmaPrefix: "Guía Gemma 4 (IA): ",
+    aiReferenceNotice: "Las referencias institucionales son lecturas de contexto; no verifican esta respuesta generada.",
     thinkingMessage: "Consultando con Gemma...",
     intro: {
       badge: "BIENVENIDOS · WELCOME",
@@ -229,7 +230,7 @@ export const labels = {
       title: "Ofrendas exploradas",
       complete: "Todas las ofrendas han sido honradas con reverencia"
     },
-    detailSourcesTitle: "Fuentes Institucionales"
+    detailSourcesTitle: "Lecturas institucionales de contexto"
   },
   en: {
     explore: "Explore the altar",
@@ -238,7 +239,7 @@ export const labels = {
     hint: "✦ Select a symbol to discover its story",
     ask: "ASK ABOUT THIS ELEMENT",
     placeholder: "What does this symbol mean?",
-    foot: "Answers generated with Gemma 4 AI grounded in institutional sources. When disconnected or unavailable, a curated non-AI explanation is provided. Traditions vary by community and family.",
+    foot: "Gemma 4 generates answers from curated context. Institutional links provide background reading, not verification of each generated claim. When disconnected or unavailable, a curated non-AI explanation is provided. Traditions vary by community and family.",
     tabs: ["CONTEXT", "HISTORY", "VARIATIONS"],
     offeringsListTitle: "Altar Elements",
     resetAria: "Reset selection",
@@ -264,7 +265,8 @@ export const labels = {
       water: "Water"
     },
     answerPrefix: "Curated guide (no AI): ",
-    gemmaPrefix: "Gemma 4 Guide (Source-Grounded AI): ",
+    gemmaPrefix: "Gemma 4 Guide (AI): ",
+    aiReferenceNotice: "Institutional references are background reading; they do not verify this generated answer.",
     thinkingMessage: "Consulting Gemma...",
     intro: {
       badge: "WELCOME · BIENVENIDOS",
@@ -278,6 +280,6 @@ export const labels = {
       title: "Offerings Explored",
       complete: "All offerings honored with reverence"
     },
-    detailSourcesTitle: "Institutional Sources"
+    detailSourcesTitle: "Institutional background reading"
   }
 };

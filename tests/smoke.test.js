@@ -35,15 +35,13 @@ test("Content has all seven required offerings with en and es translations", () 
   });
 });
 
-test("Each offering has an SVG illustration with aria-hidden and viewBox", () => {
-  const expectedOfferings = ["flowers", "photo", "candles", "bread", "paper", "copal", "water"];
-  expectedOfferings.forEach((offeringId) => {
-    const svg = illustrations[offeringId];
-    assert.ok(svg, `Missing illustration for ${offeringId}`);
-    assert.match(svg, /<svg class="offering-art"/);
-    assert.match(svg, /viewBox="0 0 320 300"/);
-    assert.match(svg, /aria-hidden="true"/);
-  });
+test("Each offering uses a separately cached clean image asset", () => {
+  for (const id of Object.keys(content)) {
+    assert.match(illustrations[id], /<img class="offering-art"/);
+    assert.match(illustrations[id], new RegExp(`/crop-${id}\\.webp`));
+    assert.equal(illustrations[id].includes("base64"), false);
+    assert.ok(fs.existsSync(path.join(rootDir, "public", `crop-${id}.webp`)));
+  }
 });
 
 test("All offerings map to valid primary sources", () => {
@@ -58,16 +56,13 @@ test("All offerings map to valid primary sources", () => {
   });
 });
 
-test("Built dist/ directory contains valid HTML, CSS, JS and altar scene image", () => {
-  const distDir = path.join(rootDir, "dist");
-  assert.ok(fs.existsSync(distDir), "dist/ directory must exist");
-  assert.ok(fs.existsSync(path.join(distDir, "index.html")), "dist/index.html must exist");
-  assert.ok(fs.existsSync(path.join(distDir, "altar-scene.jpg")), "dist/altar-scene.jpg must exist");
-
-  const indexContent = fs.readFileSync(path.join(distDir, "index.html"), "utf-8");
-  assert.match(indexContent, /<html lang="en">/);
-  assert.match(indexContent, /data-id="flowers"/);
-  assert.match(indexContent, /data-id="water"/);
+test("Source HTML references the clean scene and excludes obsolete panel content", () => {
+  const html = fs.readFileSync(path.join(rootDir, "index.html"), "utf-8");
+  assert.match(html, /src="\/altar-clean.webp"/);
+  assert.ok(fs.existsSync(path.join(rootDir, "public", "altar-clean.webp")));
+  for (const id of ["facts", "note", "itemSources"]) {
+    assert.equal(html.includes(`id="${id}"`), false);
+  }
 });
 
 test("Priority 3: Cultural Trust - detail sources exist and preserve institutional attributions", () => {

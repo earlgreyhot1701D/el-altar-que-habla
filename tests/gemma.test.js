@@ -1,6 +1,5 @@
-import test from "node:test";
+import test, { mock } from "node:test";
 import assert from "node:assert/strict";
-import http from "node:http";
 import handler from "../api/explain.js";
 import { sanitizeInput, extractJson, buildPrompt } from "../api/_gemma.js";
 import { APPROVED_OFFERINGS } from "../api/_curated_knowledge.js";
@@ -159,7 +158,9 @@ test("Gemma JSON Extractor: throws on malformed or empty parts", () => {
   assert.throws(() => extractJson({ candidates: [] }), /no_answer_part/);
 });
 
-test("Security: No API credentials exposed in response payloads", async () => {
+test("Security: No API credentials exposed in response payloads", async (t) => {
+  t.after(() => mock.restoreAll());
+  mock.method(globalThis, "fetch", async () => ({ ok: false, status: 401 }));
   const res = await callHandler({
     body: { offeringId: "flowers", question: "Explain marigolds" },
     envKey: "SECRET_KEY_123456"
@@ -184,7 +185,9 @@ test("Regression: Prompt injection containing system override commands is neutra
   assert.ok(promptText.includes("DO NOT invent new historical dates"));
 });
 
-test("Regression: Server fallback returns 502 with fallback flag on model failure", async () => {
+test("Regression: Server fallback returns 502 with fallback flag on model failure", async (t) => {
+  t.after(() => mock.restoreAll());
+  mock.method(globalThis, "fetch", async () => ({ ok: false, status: 401 }));
   const res = await callHandler({
     body: { offeringId: "bread", question: "Can I put a microwave on the altar level 4?" },
     envKey: "invalid_key_triggering_failure"
@@ -196,3 +199,25 @@ test("Regression: Server fallback returns 502 with fallback flag on model failur
 });
 
 
+
+test("Offering validation rejects inherited and malformed IDs before provider access", async () => {
+  for (const offeringId of ["__proto__", "constructor", "toString", "hasOwnProperty", {}, [], null, 4]) {
+    const response = await callHandler({ body: { offeringId, question: "What does it mean?" }, envKey: null });
+    assert.equal(response.status, 400);
+    assert.throws(() => buildPrompt({ offeringId, language: "en", userQuestion: "Meaning?" }), /unknown_offering/);
+  }
+});
+
+test("Prompt-building failures are contained by the endpoint", async () => {
+  const category = APPROVED_OFFERINGS.bread.category;
+  try {
+    APPROVED_OFFERINGS.bread.category = null;
+    const response = await callHandler({ body: { offeringId: "bread", question: "Meaning?" } });
+    assert.equal(response.status, 500);
+    assert.equal(response.data.fallback, true);
+    assert.equal(response.data.reason, "model_inference_failed");
+    assert.equal(JSON.stringify(response.data).includes("TypeError"), false);
+  } finally {
+    APPROVED_OFFERINGS.bread.category = category;
+  }
+});
