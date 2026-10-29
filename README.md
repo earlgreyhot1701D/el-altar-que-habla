@@ -1,5 +1,7 @@
 # El Altar que Habla · Día de los Muertos Ofrenda
 
+![El Altar que Habla cover: an illustrated ofrenda glowing with candles and marigolds at night, with the words A small offering. Shared with care.](assets/article/cover.webp)
+
 An interactive, accessible, bilingual (English default / Spanish optional) Día de los Muertos ofrenda inspired by Mexican traditions, celebrating remembrance, memory, and cultural reverence.
 
 - **Live Production URL:** [https://el-altar-que-habla.vercel.app](https://el-altar-que-habla.vercel.app)
