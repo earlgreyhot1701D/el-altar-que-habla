@@ -41,6 +41,13 @@
         <div class="ornament" aria-hidden="true">──── ❧ ────</div>
       </div>
 
+      <div class="sidebar-bottom">
+        <div class="lang" role="group" aria-label="Language selection">
+          <button id="en" class="active" aria-pressed="true">EN</button>
+          <button id="es" aria-pressed="false">ES</button>
+        </div>
+      </div>
+
       <nav class="nav" aria-label="Sections">
         <button class="active" data-nav="explore" id="navExplore" aria-current="location"><span>⌂</span><b data-i18n="explore">Explore the altar</b></button>
         <button data-nav="offerings" id="navOfferings"><span>❀</span><b data-i18n="offerings">The seven offerings</b></button>
@@ -77,19 +84,13 @@
         </ul>
       </nav>
 
-      <div class="sidebar-bottom">
-        <div class="lang" role="group" aria-label="Language selection">
-          <button id="en" class="active" aria-pressed="true">EN</button>
-          <button id="es" aria-pressed="false">ES</button>
-        </div>
-        <p class="quote">“Remembrance gives love a place to gather.”</p>
-      </div>
+
     </aside>
 
     <main class="stage" id="altarStage" tabindex="-1" aria-label="Interactive ofrenda" aria-describedby="hint">
+      <header class="stage-caption"><h2 class="stage-heading" id="stageHeading">AN OFRENDA TO REMEMBER</h2></header>
       <div class="scene-frame">
         <img class="scene" src="/altar-clean.webp" width="1147" height="1371" alt="Illustrated ofrenda with seven offerings" fetchpriority="high">
-        <div class="stage-heading" id="stageHeading">AN OFRENDA TO REMEMBER</div>
 
         <!-- Spatial Hotspots -->
         <button class="hotspot" style="left:35%;top:10%" data-id="flowers" aria-label="Explore marigolds" aria-pressed="false">+</button>
