@@ -441,14 +441,23 @@ button {
   background: #291724;
 }
 
+/* The image and buttons share one uncropped coordinate plane. */
+.stage {
+  display: flex;
+  align-items: center;
+  padding: 54px 0 76px;
+}
+
+.scene-frame {
+  position: relative;
+  width: 100%;
+  flex: 0 0 100%;
+}
+
 .scene {
-  position: absolute;
-  inset: 0;
-  background-image: linear-gradient(90deg, #080c1288 0%, transparent 12%, transparent 85%, #080c1260), url("/altar-scene.jpg");
-  background-image: linear-gradient(90deg, #080c1288 0%, transparent 12%, transparent 85%, #080c1260), image-set(url("/altar-scene.webp") type("image/webp"), url("/altar-scene.jpg") type("image/jpeg"));
-  background-size: cover;
-  background-position: center center;
-  filter: saturate(1.12);
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
 .stage:after {
@@ -488,11 +497,16 @@ button {
   transition: transform 0.2s, background 0.2s;
 }
 
-.hotspot:hover, .hotspot:focus-visible, .hotspot.selected {
+.hotspot:hover, .hotspot:focus-visible {
   transform: translate(-50%, -50%) scale(1.15);
   background: #a75e18;
   outline: 2px solid #fff2ca;
   outline-offset: 3px;
+}
+
+.hotspot.selected {
+  background: #a75e18;
+  border-color: #ffce76;
 }
 
 .hint {
@@ -569,15 +583,14 @@ button {
 .detail-hero #offeringArt {
   width: 100%;
   height: 100%;
-  display: grid;
-  place-items: center;
+  min-height: 0;
 }
 
 .offering-art {
-  width: min(100%, 280px);
+  display: block;
+  width: 100%;
   height: 100%;
-  max-height: 240px;
-  filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.55));
+  object-fit: contain;
 }
 
 .panel h2 {
@@ -748,8 +761,8 @@ button {
 }
 
 .ask {
-  margin-top: auto;
-  padding-top: 16px;
+  margin-top: 16px;
+  padding-top: 0;
 }
 
 .ask label {
@@ -773,7 +786,6 @@ button {
   min-width: 0;
   background: transparent;
   border: 0;
-  outline: 0;
   color: white;
   padding: 14px;
   font-size: 12px;
@@ -1008,8 +1020,8 @@ button {
     min-height: 52vh;
   }
   .hotspot {
-    width: 38px;
-    height: 38px;
+    width: 44px;
+    height: 44px;
     font-size: 22px;
   }
   .stage-heading {
@@ -1034,4 +1046,22 @@ button {
     animation: none !important;
     transition: none !important;
   }
+}
+
+.ask-row:focus-within {
+  outline: 3px solid #ffce76;
+  outline-offset: 3px;
+}
+
+#title:focus-visible, #sourcesHeading:focus-visible {
+  outline: 3px solid #ffce76;
+  outline-offset: 4px;
+}
+
+.offering-select-btn, .lang button {
+  min-height: 44px;
+}
+
+@media (max-width: 850px) {
+  .stage { min-height: 0; padding: 42px 0 68px; }
 }

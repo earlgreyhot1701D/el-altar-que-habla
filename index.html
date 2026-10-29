@@ -42,7 +42,7 @@
       </div>
 
       <nav class="nav" aria-label="Sections">
-        <button class="active" data-nav="explore" id="navExplore"><span>⌂</span><b data-i18n="explore">Explore the altar</b></button>
+        <button class="active" data-nav="explore" id="navExplore" aria-current="location"><span>⌂</span><b data-i18n="explore">Explore the altar</b></button>
         <button data-nav="offerings" id="navOfferings"><span>❀</span><b data-i18n="offerings">The seven offerings</b></button>
         <button data-nav="sources" id="navSources"><span>▤</span><b data-i18n="sources">Sources & reading</b></button>
       </nav>
@@ -85,22 +85,24 @@
     </aside>
 
     <main class="stage" aria-label="Interactive ofrenda">
-      <div class="scene" role="img" aria-label="Illustrated ofrenda with flowers, candles, portraits, bread and cut paper"></div>
-      <div class="stage-heading" id="stageHeading">AN OFRENDA TO REMEMBER</div>
+      <div class="scene-frame">
+        <img class="scene" src="/altar-clean.webp" width="1147" height="1371" alt="Illustrated ofrenda with seven offerings" fetchpriority="high">
+        <div class="stage-heading" id="stageHeading">AN OFRENDA TO REMEMBER</div>
 
-      <!-- Spatial Hotspots -->
-      <button class="hotspot selected" style="left:29%;top:14%" data-id="flowers" aria-label="Explore marigolds" aria-pressed="true">+</button>
-      <button class="hotspot" style="left:48%;top:28%" data-id="photo" aria-label="Explore portrait" aria-pressed="false">+</button>
-      <button class="hotspot" style="left:60%;top:47%" data-id="candles" aria-label="Explore candles" aria-pressed="false">+</button>
-      <button class="hotspot" style="left:33%;top:53%" data-id="bread" aria-label="Explore bread" aria-pressed="false">+</button>
-      <button class="hotspot" style="left:80%;top:60%" data-id="paper" aria-label="Explore cut paper" aria-pressed="false">+</button>
-      <button class="hotspot" style="left:48%;top:70%" data-id="copal" aria-label="Explore copal" aria-pressed="false">+</button>
-      <button class="hotspot" style="left:69%;top:71%" data-id="water" aria-label="Explore water" aria-pressed="false">+</button>
+        <!-- Spatial Hotspots -->
+        <button class="hotspot selected" style="left:35%;top:10%" data-id="flowers" aria-label="Explore marigolds" aria-pressed="true">+</button>
+        <button class="hotspot" style="left:47%;top:28%" data-id="photo" aria-label="Explore portrait" aria-pressed="false">+</button>
+        <button class="hotspot" style="left:66%;top:50%" data-id="candles" aria-label="Explore candles" aria-pressed="false">+</button>
+        <button class="hotspot" style="left:33%;top:52%" data-id="bread" aria-label="Explore bread" aria-pressed="false">+</button>
+        <button class="hotspot" style="left:80%;top:61%" data-id="paper" aria-label="Explore cut paper" aria-pressed="false">+</button>
+        <button class="hotspot" style="left:46%;top:68%" data-id="copal" aria-label="Explore copal" aria-pressed="false">+</button>
+        <button class="hotspot" style="left:67%;top:73%" data-id="water" aria-label="Explore water" aria-pressed="false">+</button>
 
+      </div>
       <div class="hint" id="hint">✦ Select a symbol to discover its story</div>
     </main>
 
-    <section class="panel" aria-live="polite">
+    <section class="panel" aria-labelledby="title">
       <div class="panel-top">
         <span class="eyebrow" id="category">MARIGOLDS</span>
         <button class="close" id="reset" aria-label="Reset selection">×</button>
@@ -110,7 +112,7 @@
         <div id="offeringArt" aria-hidden="true"></div>
       </div>
 
-      <h2 id="title">The guiding flower</h2>
+      <h2 id="title" tabindex="-1">The guiding flower</h2>
       <p class="subtitle" id="subtitle">Beauty, memory, and a path</p>
       <p class="description" id="description"></p>
 
@@ -138,17 +140,13 @@
         <ul id="offeringSourcesList" class="offering-sources-list"></ul>
       </div>
 
-      <!-- Hidden container to preserve compatibility with existing smoke tests if referenced -->
-      <div class="sr-only" id="facts"></div>
-      <div class="sr-only" id="note"></div>
-      <div class="sr-only" id="itemSources"></div>
     </section>
   </div>
 
   <section class="sources-section" id="sourcesSection" aria-labelledby="sourcesHeading">
     <div class="sources-inner">
       <div class="sources-kicker" id="sourcesKicker">RESEARCH & READING</div>
-      <h2 id="sourcesHeading">Explore the primary sources</h2>
+      <h2 id="sourcesHeading" tabindex="-1">Explore the primary sources</h2>
       <p id="sourcesIntro">The meanings presented here are grounded in Mexican cultural institutions and UNESCO documentation. Customs vary across communities and families; these references are a starting point, not a universal rulebook.</p>
       <div id="sourceCards" class="source-cards"></div>
       <p class="sources-disclaimer" id="sourcesDisclaimer">Research note: the scene is AI-generated concept artwork, not a documentary photograph of an actual family altar. Source links open the original publishers’ websites, often in Spanish.</p>

@@ -83,7 +83,9 @@ test("Mock Integration: Successful English Gemma response", async () => {
     assert.equal(res.status, 200);
     assert.equal(res.data.success, true);
     assert.equal(res.data.model, MODEL);
-    assert.equal(res.data.sourceMention, "INAH / UNESCO");
+    assert.deepEqual(res.data.backgroundReferences, ["INAH", "UNESCO"]);
+    assert.equal(res.data.attribution, "background_only");
+    assert.equal(res.data.sourceMention, undefined);
     assert.match(res.data.answer, /guiding flowers/);
   });
 });
@@ -207,32 +209,7 @@ test("Mock Integration: Rejects empty or whitespace-only answer string as invali
   });
 });
 
-test("Client Async Race Condition: State currentRequestId cancels stale responses", () => {
-  // Test simulated race condition logic matching main.js
-  let state = {
-    selected: "flowers",
-    language: "en",
-    currentRequestId: 1
-  };
-
-  const oldRequestId = state.currentRequestId;
-  const initialOffering = state.selected;
-  const initialLanguage = state.language;
-
-  // Visitor switches to bread and Spanish while request 1 is still in flight
-  state.currentRequestId++;
-  state.selected = "bread";
-  state.language = "es";
-
-  // Simulate arrival of old request 1 response
-  const isStale = (
-    oldRequestId !== state.currentRequestId ||
-    initialOffering !== state.selected ||
-    initialLanguage !== state.language
-  );
-
-  assert.equal(isStale, true, "Stale async response is identified and discarded");
-});
+// Real client races are covered in tests/e2e/altar.spec.js.
 
 test("Regression: Spanish Gemma question for bread addresses bread, not marigolds", async () => {
   await withMockProvider(async (url, opts) => {
@@ -268,7 +245,8 @@ test("Regression: Spanish Gemma question for bread addresses bread, not marigold
     assert.equal(res.status, 200);
     assert.equal(res.data.success, true);
     assert.match(res.data.answer, /pan de muerto/);
-    assert.equal(res.data.sourceMention, "INAH");
+    assert.deepEqual(res.data.backgroundReferences, ["INAH"]);
+    assert.equal(res.data.sourceMention, undefined);
   });
 });
 
