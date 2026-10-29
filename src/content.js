@@ -155,29 +155,41 @@ export const content = {
       category: "AGUA",
       title: "Agua para el camino",
       subtitle: "Descanso y hospitalidad",
-      description: "En muchas ofrendas se coloca agua como gesto de hospitalidad y para refrescar simbólicamente a las almas después de su viaje.",
+      description: "Un vaso de agua da la bienvenida a quienes se recuerda en la ofrenda. En muchas tradiciones, calma simbólicamente la sed de las almas que regresan de su viaje.",
       facts: [["◌", "Refresco"], ["♡", "Cuidado"], ["≈", "Agua"]],
       note: "Ofrecer agua es una forma sencilla de decir: bienvenido.",
-      context: "Un vaso o recipiente de agua puede formar parte de la ofrenda.",
-      history: "El agua tiene múltiples significados en tradiciones rituales y domésticas.",
-      variations: "Su presentación y significado pueden variar según la familia."
+      context: "El agua expresa cuidado mediante un gesto sencillo de hospitalidad: ofrecer descanso y alivio a un ser querido que regresa.",
+      history: "El INPI documenta el agua entre los elementos tradicionales de la ofrenda y la relaciona con la sed después del viaje de las almas.",
+      variations: "El recipiente y su ubicación pueden variar entre familias y comunidades; no existe una sola disposición para todas las ofrendas."
     },
     en: {
       category: "WATER",
       title: "Water for the journey",
       subtitle: "Rest and hospitality",
-      description: "Many ofrendas include water as a gesture of hospitality, symbolically refreshing returning souls after their journey.",
+      description: "A glass of water welcomes those remembered at the ofrenda. In many traditions, it symbolically quenches the thirst of souls returning from their journey.",
       facts: [["◌", "Refreshment"], ["♡", "Care"], ["≈", "Water"]],
       note: "Offering water is a simple way to say: welcome.",
-      context: "A glass or vessel of water may be included on the ofrenda.",
-      history: "Water holds many meanings in ritual and domestic traditions.",
-      variations: "Its presentation and meaning may differ by family."
+      context: "Water expresses care through a simple act of hospitality: offering refreshment to a returning loved one.",
+      history: "INPI documents water among the traditional elements of an ofrenda, connecting it with thirst after the souls’ journey.",
+      variations: "The vessel and its placement can differ among families and communities; there is no single arrangement for every ofrenda."
     }
   }
 };
 
 export const labels = {
   es: {
+    storyPanel: "Historia de la ofrenda",
+    startOver: "Empezar de nuevo",
+    closeStory: "Cerrar historia y volver al altar",
+    closeChooser: "Cerrar selector de ofrendas",
+    selectionHelp: "Elige un elemento para abrir su historia. También puedes seleccionar un + en el altar.",
+    chooserHelp: "Elige una de las siete ofrendas. Su historia se abrirá junto al altar, o debajo en una pantalla pequeña.",
+    readStory: "Leer su historia →",
+    storyOpened: "historia abierta",
+    progressReset: "Exploración reiniciada. Elige una ofrenda para comenzar de nuevo.",
+    exploreNotice: "De vuelta en el altar. Selecciona cualquier + para abrir su historia.",
+    hintBeside: "Elige un + o un elemento para abrir su historia a la derecha →",
+    hintBelow: "Elige un + o un elemento para abrir su historia debajo ↓",
     explore: "Explora",
     layers: "Las capas",
     elements: "Los elementos",
@@ -233,6 +245,18 @@ export const labels = {
     detailSourcesTitle: "Lecturas institucionales de contexto"
   },
   en: {
+    storyPanel: "Offering story",
+    startOver: "Start over",
+    closeStory: "Close story and return to altar",
+    closeChooser: "Close offering chooser",
+    selectionHelp: "Choose an element to open its story. You can also select a + on the altar.",
+    chooserHelp: "Choose one of the seven offerings. Its story will open beside the altar, or below it on a smaller screen.",
+    readStory: "Read its story →",
+    storyOpened: "story opened",
+    progressReset: "Exploration reset. Choose an offering to begin again.",
+    exploreNotice: "Back at the altar. Select any + to open its story.",
+    hintBeside: "Select a + or an element to open its story on the right →",
+    hintBelow: "Select a + or an element to open its story below ↓",
     explore: "Explore the altar",
     offerings: "The seven offerings",
     sources: "Sources & reading",

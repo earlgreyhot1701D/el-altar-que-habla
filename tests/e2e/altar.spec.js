@@ -24,7 +24,8 @@ const sizes = [
 async function openAltar(page) {
   await page.goto("/");
   await page.locator("#introBeginBtn").click();
-  await expect(page.locator(".hotspot.selected")).toBeFocused();
+  await expect(page.locator(".hotspot").first()).toBeFocused();
+  await expect(page.locator(".panel")).toBeHidden();
   await page.locator(".scene").evaluate(img => img.decode());
 }
 
@@ -74,7 +75,9 @@ for (const size of sizes) {
           await expect(page.locator("#category")).toHaveText(categories[language][index]);
           await expect(hotspot).toHaveAttribute("aria-pressed", "true");
           await expect(page.locator(".offering-select-btn.active")).toHaveAttribute("data-id", id);
-          if (size.width <= 850) await expect(page.locator("#title")).toBeFocused();
+          await expect(page.locator("#title")).toBeFocused();
+          await expect(page.locator(".panel")).toBeVisible();
+          await expect(page.locator("#selectionNotice")).toContainText(language === "en" ? "story opened" : "historia abierta");
           const image = page.locator(".offering-art");
           await expect(image).toHaveAttribute("src", `/crop-${id}.webp`);
           await image.evaluate(img => img.decode());
@@ -100,12 +103,58 @@ for (const size of sizes) {
       await expect(page.locator("#navSources")).toHaveClass("active");
       await page.locator("#navExplore").press("Enter");
       await expect(page.locator('.hotspot[data-id="bread"]')).toBeFocused();
+      await expect.poll(async () => Math.abs((await page.locator("#altarStage").boundingBox()).y)).toBeLessThan(2);
+      await expect(page.locator(".panel")).toBeHidden();
       await page.locator("#navOfferings").press("Enter");
-      await expect(page.locator('.offering-select-btn[data-id="bread"]')).toBeFocused();
-      await page.locator('.offering-select-btn[data-id="water"]').press("Enter");
+      await expect(page.locator("#offeringsDialog")).toBeVisible();
+      await expect(page.locator(".chooser-option")).toHaveCount(7);
+      await expect(page.locator('.chooser-option[data-id="bread"]')).toBeFocused();
+      await page.keyboard.press("Escape");
+      await expect(page.locator("#offeringsDialog")).toBeHidden();
+      await expect(page.locator("#navOfferings")).toBeFocused();
+      await page.locator("#navOfferings").click();
+      await page.locator('.chooser-option[data-id="water"]').click();
+      await expect(page.locator("#offeringsDialog")).toBeHidden();
+      await expect(page.locator(".panel")).toBeVisible();
+      await expect(page.locator("#title")).toBeFocused();
       await expect(page.locator("#navExplore")).toHaveClass("active");
       await page.locator("#question").focus();
       await expect(page.locator(".ask-row")).toHaveCSS("outline-style", "solid");
+    });
+
+    test("progress resets explicitly, panel closes independently, and altar stays centered", async ({ page }) => {
+      await openAltar(page);
+      await expect(page.locator("#visitProgressCount")).toHaveText("0 / 7");
+      for (const id of Object.keys(subjects)) await page.locator(`.hotspot[data-id="${id}"]`).click();
+      await expect(page.locator("#visitProgressCount")).toHaveText("7 / 7");
+      await expect(page.locator("#completionBadge")).toBeVisible();
+      await page.locator("#closePanel").click();
+      await expect(page.locator(".panel")).toBeHidden();
+      await expect(page.locator("#visitProgressCount")).toHaveText("7 / 7");
+      await page.locator("#es").click();
+      await expect(page.locator("#resetProgress")).toHaveText("Empezar de nuevo");
+      await page.locator("#resetProgress").click();
+      await expect(page.locator("#visitProgressCount")).toHaveText("0 / 7");
+      await expect(page.locator("#completionBadge")).toBeHidden();
+      await expect(page.locator(".is-visited")).toHaveCount(0);
+      await expect(page.locator(".hotspot.selected")).toHaveCount(0);
+      await expect(page.locator("#altarStage")).toBeFocused();
+      const centered = await page.locator(".scene").evaluate(img => {
+        const r = img.getBoundingClientRect();
+        return Math.abs(r.x + r.width / 2 - document.documentElement.clientWidth / 2);
+      });
+      expect(centered).toBeLessThan(2);
+      await page.locator('.hotspot[data-id="water"]').click();
+      await expect(page.locator("#visitProgressCount")).toHaveText("1 / 7");
+      if (size.width > 850) {
+        const panel = await page.locator(".panel").boundingBox();
+        expect(panel.width).toBeLessThanOrEqual(300);
+        expect(panel.height).toBeLessThanOrEqual(size.height - 32);
+      }
+      await page.locator("#offeringSourcesTitle").press("Enter");
+      await expect(page.locator("#offeringDetailSources")).toHaveAttribute("open", "");
+      await page.locator("#offeringSourcesTitle").press("Enter");
+      await expect(page.locator("#offeringDetailSources")).not.toHaveAttribute("open", "");
     });
 
     test("reviewed artwork contains no baked-in controls", async ({ page }) => {
@@ -130,7 +179,7 @@ test("introduction traps focus, inerts the background, and restores useful focus
   await page.keyboard.press("Shift+Tab");
   await expect(page.locator("#introSkipBtn")).toBeFocused();
   await page.keyboard.press("Escape");
-  await expect(page.locator(".hotspot.selected")).toBeFocused();
+  await expect(page.locator(".hotspot").first()).toBeFocused();
   await expect(page.locator(".app")).toHaveJSProperty("inert", false);
 });
 

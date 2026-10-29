@@ -5,9 +5,9 @@ import { illustrations } from "./illustrations.js";
 // State Contract
 export const state = {
   language: "en",
-  selected: "flowers",
+  selected: null,
   tab: "context",
-  visitedOfferings: new Set(["flowers"]),
+  visitedOfferings: new Set(),
   currentRequestId: 0
 };
 
@@ -76,7 +76,7 @@ export function renderOfferingDetailSources() {
 
 export function render() {
   const l = labels[state.language];
-  const d = content[state.selected][state.language];
+  const d = content[state.selected || "flowers"][state.language];
   const isEn = state.language === "en";
 
   document.documentElement.lang = state.language;
@@ -103,6 +103,7 @@ export function render() {
     const id = b.dataset.id;
     const name = l.names[id] || id;
     b.setAttribute("aria-label", (isEn ? "Explore " : "Explorar ") + name + (state.visitedOfferings.has(id) ? (isEn ? " (explored)" : " (explorado)") : ""));
+    b.dataset.name = name;
     b.setAttribute("aria-pressed", String(id === state.selected));
     b.classList.toggle("selected", id === state.selected);
   });
@@ -159,8 +160,29 @@ export function render() {
   const introDismissX = $("introDismissX");
   if (introDismissX) introDismissX.setAttribute("aria-label", l.intro.dismiss);
 
-  // Reset and ask buttons
-  $("reset").setAttribute("aria-label", l.resetAria);
+  $("closePanel").setAttribute("aria-label", l.closeStory);
+  $("closeChooser").setAttribute("aria-label", l.closeChooser);
+  $("selectionHelp").textContent = l.selectionHelp;
+  $("chooserTitle").textContent = l.offerings;
+  $("chooserHelp").textContent = l.chooserHelp;
+  $("chooserOptions").replaceChildren(...Object.keys(content).map((id) => {
+    const button = document.createElement("button");
+    button.className = "chooser-option";
+    button.dataset.id = id;
+    const name = document.createElement("strong");
+    name.textContent = l.names[id];
+    const subtitle = document.createElement("span");
+    subtitle.textContent = content[id][state.language].subtitle;
+    const action = document.createElement("span");
+    action.className = "chooser-action";
+    action.textContent = l.readStory;
+    button.append(name, subtitle, action);
+    button.addEventListener("click", () => {
+      $("offeringsDialog").close();
+      selectOffering(id);
+    });
+    return button;
+  }));
   $("askButton").setAttribute("aria-label", l.askButtonAria);
 
   // Panel content
@@ -171,7 +193,7 @@ export function render() {
   $("description").textContent = d.description;
 
   $("tabcopy").textContent = d[state.tab];
-  $("hint").textContent = l.hint;
+  updateExplorationHint();
   $("askLabel").textContent = l.ask;
   $("question").placeholder = l.placeholder;
   $("footnote").textContent = l.foot;
@@ -204,12 +226,27 @@ function setActiveNav(section) {
   });
 }
 
-function focusDestination(element) {
+function focusDestination(element, { scrollTarget = element, block = "center" } = {}) {
   if (!element) return;
   element.focus({ preventScroll: true });
-  element.scrollIntoView({
+  scrollTarget.scrollIntoView({
     behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth",
-    block: "center"
+    block
+  });
+}
+
+function updateExplorationHint() {
+  const l = labels[state.language];
+  $("hint").textContent = window.innerWidth <= 850 ? l.hintBelow : l.hintBeside;
+}
+
+function exploreAltar() {
+  // Close the story without clearing the visitor's exploration progress.
+  document.querySelector(".panel").hidden = true;
+  setActiveNav("explore");
+  $("selectionNotice").textContent = labels[state.language].exploreNotice;
+  focusDestination(document.querySelector(".hotspot.selected") || document.querySelector(".hotspot"), {
+    scrollTarget: $("altarStage"), block: "start"
   });
 }
 
@@ -222,14 +259,16 @@ export function selectOffering(id) {
   state.tab = "context";
   $("answer").textContent = "";
   render();
-  if (window.innerWidth <= 850) {
-    focusDestination($("title"));
-  }
+  $("offeringDetailSources").open = false;
+  document.querySelector(".panel").hidden = false;
+  $("selectionNotice").textContent = `${labels[state.language].names[id]} — ${labels[state.language].storyOpened}`;
+  // Selection has a visible destination on desktop as well as mobile.
+  focusDestination($("title"));
 }
 
 export async function ask() {
   const q = $("question").value.trim();
-  if (!q) return;
+  if (!q || !state.selected) return;
 
   const currentOffering = state.selected;
   const currentLang = state.language;
@@ -407,41 +446,47 @@ export function init() {
       state.language = lang;
       $("answer").textContent = "";
       render();
+      $("selectionNotice").textContent = state.selected && !document.querySelector(".panel").hidden
+        ? `${labels[lang].names[state.selected]} — ${labels[lang].storyOpened}` : "";
     })
   );
 
-  // The three section controls share the same focus/scroll contract.
-  $("reset").addEventListener("click", () => selectOffering("flowers"));
-  $("navExplore").addEventListener("click", () => {
+  $("closePanel").addEventListener("click", exploreAltar);
+  $("resetProgress").addEventListener("click", () => {
+    state.currentRequestId++;
+    state.selected = null;
+    state.tab = "context";
+    state.visitedOfferings.clear();
+    $("answer").textContent = "";
+    $("question").value = "";
+    document.querySelector(".panel").hidden = true;
+    render();
+    $("selectionNotice").textContent = labels[state.language].progressReset;
     setActiveNav("explore");
-    focusDestination(document.querySelector(".hotspot.selected"));
+    focusDestination($("altarStage"));
   });
+  $("navExplore").addEventListener("click", exploreAltar);
   $("navOfferings").addEventListener("click", () => {
     setActiveNav("offerings");
-    focusDestination(document.querySelector(".offering-select-btn.active"));
+    $("offeringsDialog").showModal();
+    const selected = $("chooserOptions").querySelector(`[data-id="${state.selected}"]`);
+    (selected || $("chooserOptions").querySelector("button")).focus();
+  });
+  $("closeChooser").addEventListener("click", () => $("offeringsDialog").close());
+  $("offeringsDialog").addEventListener("close", () => {
+    setActiveNav("explore");
   });
   $("navSources").addEventListener("click", () => {
     setActiveNav("sources");
     focusDestination($("sourcesHeading"));
   });
+  window.addEventListener("resize", updateExplorationHint);
 
   // Question Q&A input
   $("askButton").addEventListener("click", ask);
   $("question").addEventListener("keydown", (e) => {
     if (e.key === "Enter") ask();
   });
-
-  if ("IntersectionObserver" in window) {
-    const observer = new IntersectionObserver((entries) => {
-      for (const entry of entries) {
-        if (entry.isIntersecting) {
-          setActiveNav(entry.target.id === "sourcesHeading" ? "sources" : "explore");
-        }
-      }
-    }, { threshold: 0.5 });
-    observer.observe($("sourcesHeading"));
-    observer.observe(document.querySelector(".scene-frame"));
-  }
 
   // Initial render
   render();

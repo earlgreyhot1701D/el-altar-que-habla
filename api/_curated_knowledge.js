@@ -105,17 +105,17 @@ export const APPROVED_OFFERINGS = {
     category: { en: "WATER", es: "AGUA" },
     title: { en: "Water for the journey", es: "Agua para el camino" },
     context: {
-      en: "A glass or vessel of water may be included on the ofrenda.",
-      es: "Un vaso o recipiente de agua puede formar parte de la ofrenda."
+      en: "Water expresses care through a simple act of hospitality: offering refreshment to a returning loved one.",
+      es: "El agua expresa cuidado mediante un gesto sencillo de hospitalidad: ofrecer descanso y alivio a un ser querido que regresa."
     },
     history: {
-      en: "Water holds many meanings in ritual and domestic traditions.",
-      es: "El agua tiene múltiples significados en tradiciones rituales y domésticas."
+      en: "INPI documents water among the traditional elements of an ofrenda, connecting it with thirst after the souls’ journey.",
+      es: "El INPI documenta el agua entre los elementos tradicionales de la ofrenda y la relaciona con la sed después del viaje de las almas."
     },
     variations: {
-      en: "Its presentation and meaning may differ by family.",
-      es: "Su presentación y significado pueden variar según la familia."
+      en: "The vessel and its placement can differ among families and communities; there is no single arrangement for every ofrenda.",
+      es: "El recipiente y su ubicación pueden variar entre familias y comunidades; no existe una sola disposición para todas las ofrendas."
     },
-    sources: ["INAH"]
+    sources: ["INAH", "INPI"]
   }
 };

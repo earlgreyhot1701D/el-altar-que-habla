@@ -51,21 +51,23 @@
       <div class="visit-progress" id="visitProgress" aria-live="polite">
         <div class="visit-progress-header">
           <span class="visit-progress-title" id="visitProgressTitle">Offerings Explored</span>
-          <span class="visit-progress-count" id="visitProgressCount">1 / 7</span>
+          <span class="visit-progress-count" id="visitProgressCount">0 / 7</span>
         </div>
         <div class="visit-progress-bar">
-          <div class="visit-progress-fill" id="visitProgressFill" style="width: 14.3%"></div>
+          <div class="visit-progress-fill" id="visitProgressFill" style="width: 0%"></div>
         </div>
         <div class="completion-badge" id="completionBadge" hidden>
           ✦ <span id="completionText">All offerings honored with reverence</span>
         </div>
+        <button id="resetProgress" class="text-action" data-i18n="startOver">Start over</button>
       </div>
 
       <!-- Non-spatial keyboard & screen-reader alternative navigation for all 7 offerings -->
       <nav class="offerings-nav" aria-label="Altar offerings selection">
-        <div class="offerings-nav-title" id="offeringsListTitle">Altar Elements</div>
+        <div class="offerings-nav-title" id="offeringsListTitle">Choose an offering</div>
+        <p class="selection-help" id="selectionHelp"></p>
         <ul class="offerings-list" role="list">
-          <li><button class="offering-select-btn active" data-id="flowers" aria-pressed="true"><span class="visited-check" aria-hidden="true">✓</span><span class="offering-icon" aria-hidden="true">🌼</span><span class="offering-btn-label">Marigolds</span></button></li>
+          <li><button class="offering-select-btn" data-id="flowers" aria-pressed="false"><span class="visited-check" aria-hidden="true">✓</span><span class="offering-icon" aria-hidden="true">🌼</span><span class="offering-btn-label">Marigolds</span></button></li>
           <li><button class="offering-select-btn" data-id="photo" aria-pressed="false"><span class="visited-check" aria-hidden="true">✓</span><span class="offering-icon" aria-hidden="true">🖼️</span><span class="offering-btn-label">Portrait</span></button></li>
           <li><button class="offering-select-btn" data-id="candles" aria-pressed="false"><span class="visited-check" aria-hidden="true">✓</span><span class="offering-icon" aria-hidden="true">🕯️</span><span class="offering-btn-label">Candles</span></button></li>
           <li><button class="offering-select-btn" data-id="bread" aria-pressed="false"><span class="visited-check" aria-hidden="true">✓</span><span class="offering-icon" aria-hidden="true">🍞</span><span class="offering-btn-label">Bread</span></button></li>
@@ -84,13 +86,13 @@
       </div>
     </aside>
 
-    <main class="stage" aria-label="Interactive ofrenda">
+    <main class="stage" id="altarStage" tabindex="-1" aria-label="Interactive ofrenda" aria-describedby="hint">
       <div class="scene-frame">
         <img class="scene" src="/altar-clean.webp" width="1147" height="1371" alt="Illustrated ofrenda with seven offerings" fetchpriority="high">
         <div class="stage-heading" id="stageHeading">AN OFRENDA TO REMEMBER</div>
 
         <!-- Spatial Hotspots -->
-        <button class="hotspot selected" style="left:35%;top:10%" data-id="flowers" aria-label="Explore marigolds" aria-pressed="true">+</button>
+        <button class="hotspot" style="left:35%;top:10%" data-id="flowers" aria-label="Explore marigolds" aria-pressed="false">+</button>
         <button class="hotspot" style="left:47%;top:28%" data-id="photo" aria-label="Explore portrait" aria-pressed="false">+</button>
         <button class="hotspot" style="left:66%;top:50%" data-id="candles" aria-label="Explore candles" aria-pressed="false">+</button>
         <button class="hotspot" style="left:33%;top:52%" data-id="bread" aria-label="Explore bread" aria-pressed="false">+</button>
@@ -99,13 +101,14 @@
         <button class="hotspot" style="left:67%;top:73%" data-id="water" aria-label="Explore water" aria-pressed="false">+</button>
 
       </div>
-      <div class="hint" id="hint">✦ Select a symbol to discover its story</div>
+      <div class="hint" id="hint">Select a + to open its story</div>
+      <p class="selection-notice" id="selectionNotice" role="status"></p>
     </main>
 
-    <section class="panel" aria-labelledby="title">
+    <section class="panel" aria-labelledby="title" hidden>
       <div class="panel-top">
-        <span class="eyebrow" id="category">MARIGOLDS</span>
-        <button class="close" id="reset" aria-label="Reset selection">×</button>
+        <div><span class="panel-purpose" data-i18n="storyPanel">Offering story</span><span class="eyebrow" id="category">MARIGOLDS</span></div>
+        <button class="close" id="closePanel" aria-label="Close story and return to altar">×</button>
       </div>
 
       <div class="detail-hero">
@@ -135,13 +138,19 @@
       </div>
 
       <!-- Specific Institutional Sources with direct links for current offering -->
-      <div class="offering-detail-sources" id="offeringDetailSources">
-        <h4 id="offeringSourcesTitle">Institutional Sources</h4>
+      <details class="offering-detail-sources" id="offeringDetailSources">
+        <summary id="offeringSourcesTitle">Institutional background reading</summary>
         <ul id="offeringSourcesList" class="offering-sources-list"></ul>
-      </div>
+      </details>
 
     </section>
   </div>
+
+  <dialog id="offeringsDialog" aria-labelledby="chooserTitle" aria-describedby="chooserHelp">
+    <div class="chooser-top"><h2 id="chooserTitle"></h2><button id="closeChooser" class="close" aria-label="Close offering chooser">×</button></div>
+    <p id="chooserHelp"></p>
+    <div id="chooserOptions" class="chooser-options"></div>
+  </dialog>
 
   <section class="sources-section" id="sourcesSection" aria-labelledby="sourcesHeading">
     <div class="sources-inner">
