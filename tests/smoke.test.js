@@ -7,6 +7,7 @@ import { fileURLToPath } from "node:url";
 import { content, labels } from "../src/content.js";
 import { sources, itemSourceMap } from "../src/sources.js";
 import { illustrations } from "../src/illustrations.js";
+import "./visit-moments.test.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.resolve(__dirname, "..");

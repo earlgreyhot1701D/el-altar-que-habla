@@ -1,0 +1,2 @@
+/* Hide only the new 24px butterfly SVG, never its scene-sized parent. */
+#visitMonarch > .monarch-shape { visibility: hidden !important; }
