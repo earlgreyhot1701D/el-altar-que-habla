@@ -24,6 +24,13 @@ Only after MVP passes tests. Gemma may paraphrase or conversationally explain *a
 ## Explicitly out of scope for deadline
 Drag-and-drop altar builder, user accounts, photo uploads, database, payments, social sharing, personalized memorial data, broad agentic workflows, analytics requiring consent.
 
+## STUB — Remember someone
+Explore an optional, private remembrance space in a future release.
+- EN: “Remember someone”
+- ES: “Recuerda a alguien”
+- Implementation is deferred. Any future version requires separate design, accessibility, cultural review, testing, and approval. Preserve the altar artwork and hotspot coordinates.
+- Privacy starting point: session-only text, no automatic persistence, uploads, public sharing, analytics capture, or transmission to Gemma or another server. Provide a clear erase action. Any future storage or sharing requires an explicit privacy decision and disclosure.
+
 ## Success criteria
 - All seven offerings usable on desktop and mobile.
 - Language switch does not lose selection or produce mixed-language UI.

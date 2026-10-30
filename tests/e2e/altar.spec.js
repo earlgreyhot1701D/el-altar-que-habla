@@ -128,11 +128,13 @@ for (const size of sizes) {
       for (const id of Object.keys(subjects)) await page.locator(`.hotspot[data-id="${id}"]`).click();
       await expect(page.locator("#visitProgressCount")).toHaveText("7 / 7");
       await expect(page.locator("#completionBadge")).toBeVisible();
+      await expect(page.locator("#completionText")).toHaveText("You've explored all seven offerings.");
       await page.locator("#closePanel").click();
       await expect(page.locator(".panel")).toBeHidden();
       await expect(page.locator("#visitProgressCount")).toHaveText("7 / 7");
       await page.locator("#es").click();
       await expect(page.locator("#resetProgress")).toHaveText("Empezar de nuevo");
+      await expect(page.locator("#completionText")).toHaveText("Has explorado los siete elementos.");
       await page.locator("#resetProgress").click();
       await expect(page.locator("#visitProgressCount")).toHaveText("0 / 7");
       await expect(page.locator("#completionBadge")).toBeHidden();
@@ -159,6 +161,9 @@ for (const size of sizes) {
 
     test("reviewed artwork contains no baked-in controls", async ({ page }) => {
       await openAltar(page);
+      // The intro's click position can land on a hotspot when screenshot capture
+      // scrolls the scene into view. Keep pointer hover out of this artwork check.
+      await page.mouse.move(0, 0);
       await expect(page.locator(".scene")).toHaveAttribute("src", "/altar-clean.webp");
       // Pixel comparison against the manually inspected clean image. A DOM count alone
       // cannot detect controls painted into a bitmap. Review baseline changes by eye.

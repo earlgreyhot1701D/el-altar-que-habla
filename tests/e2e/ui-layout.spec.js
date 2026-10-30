@@ -54,7 +54,11 @@ for (const viewport of viewports) {
 
       for (const language of ["en", "es"]) {
         await page.locator(`#${language}`).click();
-        await expect(page.locator("#offeringsListTitle")).toHaveText(language === "en" ? "Choose an offering" : "Elige una ofrenda");
+        await expect(page.locator("#offeringsListTitle")).toHaveText(language === "en" ? "Choose an offering" : "Elige un elemento");
+        const flowerLabel = page.locator('.offering-select-btn[data-id="flowers"] .offering-btn-label');
+        const flowerSize = await flowerLabel.evaluate(el => ({ height: el.getBoundingClientRect().height, line: parseFloat(getComputedStyle(el).lineHeight), width: el.clientWidth, content: el.scrollWidth }));
+        expect(flowerSize.height).toBeLessThanOrEqual(flowerSize.line + 1);
+        expect(flowerSize.content).toBeLessThanOrEqual(flowerSize.width + 1);
         const navigation = await page.locator(".offering-select-btn").evaluateAll(buttons => buttons.map(button => ({
           width: button.getBoundingClientRect().width, height: button.getBoundingClientRect().height,
           clientWidth: button.clientWidth, scrollWidth: button.scrollWidth

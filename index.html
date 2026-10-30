@@ -4,6 +4,23 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#090f1b">
+  <meta name="description" content="Explore seven Día de Muertos offerings through bilingual stories, cultural sources, and a curated guide. Explora siete elementos de una ofrenda de Día de Muertos con historias bilingües, fuentes culturales y una guía de contenido seleccionado.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="El Altar que Habla">
+  <meta property="og:title" content="El Altar que Habla">
+  <meta property="og:url" content="https://el-altar-que-habla.vercel.app/">
+  <meta property="og:description" content="Explore seven Día de Muertos offerings through bilingual stories, cultural sources, and a curated guide. Explora siete elementos de una ofrenda de Día de Muertos con historias bilingües, fuentes culturales y una guía de contenido seleccionado.">
+  <meta property="og:image" content="https://el-altar-que-habla.vercel.app/cover-1000x420.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1000">
+  <meta property="og:image:height" content="420">
+  <meta property="og:image:alt" content="Illustrated candlelit ofrenda with marigolds and the words “A small offering. Shared with care.” / Ofrenda ilustrada con velas y cempasúchil, y el texto en inglés «Una pequeña ofrenda. Compartida con cariño».">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="El Altar que Habla">
+  <meta name="twitter:description" content="Explore seven Día de Muertos offerings through bilingual stories, cultural sources, and a curated guide. Explora siete elementos de una ofrenda de Día de Muertos con historias bilingües, fuentes culturales y una guía de contenido seleccionado.">
+  <meta name="twitter:image" content="https://el-altar-que-habla.vercel.app/cover-1000x420.png">
+  <meta name="twitter:image:alt" content="Illustrated candlelit ofrenda with marigolds and the words “A small offering. Shared with care.” / Ofrenda ilustrada con velas y cempasúchil, y el texto en inglés «Una pequeña ofrenda. Compartida con cariño».">
+  <link rel="canonical" href="https://el-altar-que-habla.vercel.app/">
   <title>El Altar que Habla · Memoria, tradición y vida</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,8 +37,9 @@
       </div>
       <h3 id="introHeading">Step into the Ofrenda</h3>
       <p id="introText">
-        Welcome to <em>El Altar que Habla</em>. Día de los Muertos is a living Mexican celebration of memory and hospitality. Explore seven illuminated offerings across the altar, learn their stories grounded in institutional archives, and converse with our grounded Gemma guide.
+        Welcome to El Altar que Habla. With Indigenous roots and Catholic influences, Día de Muertos is celebrated by communities in Mexico. Explore seven offerings on this illustrated altar, read curated explanations with links to cultural institutions, and ask questions with Gemma’s assistance. Traditions vary by community and family.
       </p>
+      <div class="intro-background"><a id="introUnesco" href="https://ich.unesco.org/en/RL/dia-de-muertos-the-indigenous-festivity-dedicated-to-the-dead-00054" target="_blank" rel="noopener noreferrer">Background: UNESCO</a></div>
       <div class="intro-actions">
         <button id="introBeginBtn" class="intro-btn primary">Begin Exploration</button>
         <button id="introSkipBtn" class="intro-btn secondary">Skip</button>
@@ -64,7 +82,7 @@
           <div class="visit-progress-fill" id="visitProgressFill" style="width: 0%"></div>
         </div>
         <div class="completion-badge" id="completionBadge" hidden>
-          ✦ <span id="completionText">All offerings honored with reverence</span>
+          ✦ <span id="completionText">You've explored all seven offerings.</span>
         </div>
         <button id="resetProgress" class="text-action" data-i18n="startOver">Start over</button>
       </div>
@@ -78,8 +96,8 @@
           <li><button class="offering-select-btn" data-id="photo" aria-pressed="false"><span class="visited-check" aria-hidden="true">✓</span><span class="offering-icon" aria-hidden="true">🖼️</span><span class="offering-btn-label">Portrait</span></button></li>
           <li><button class="offering-select-btn" data-id="candles" aria-pressed="false"><span class="visited-check" aria-hidden="true">✓</span><span class="offering-icon" aria-hidden="true">🕯️</span><span class="offering-btn-label">Candles</span></button></li>
           <li><button class="offering-select-btn" data-id="bread" aria-pressed="false"><span class="visited-check" aria-hidden="true">✓</span><span class="offering-icon" aria-hidden="true">🍞</span><span class="offering-btn-label">Bread</span></button></li>
-          <li><button class="offering-select-btn" data-id="paper" aria-pressed="false"><span class="visited-check" aria-hidden="true">✓</span><span class="offering-icon" aria-hidden="true">🎏</span><span class="offering-btn-label">Cut paper</span></button></li>
-          <li><button class="offering-select-btn" data-id="copal" aria-pressed="false"><span class="visited-check" aria-hidden="true">✓</span><span class="offering-icon" aria-hidden="true">🪔</span><span class="offering-btn-label">Copal</span></button></li>
+          <li><button class="offering-select-btn" data-id="paper" aria-pressed="false"><span class="visited-check" aria-hidden="true">✓</span><span class="offering-icon" aria-hidden="true"><img src="/icons/papel-picado.svg" width="18" height="18" alt=""></span><span class="offering-btn-label">Cut paper</span></button></li>
+          <li><button class="offering-select-btn" data-id="copal" aria-pressed="false"><span class="visited-check" aria-hidden="true">✓</span><span class="offering-icon" aria-hidden="true"><img src="/icons/copal.svg" width="18" height="18" alt=""></span><span class="offering-btn-label">Copal</span></button></li>
           <li><button class="offering-select-btn" data-id="water" aria-pressed="false"><span class="visited-check" aria-hidden="true">✓</span><span class="offering-icon" aria-hidden="true">💧</span><span class="offering-btn-label">Water</span></button></li>
         </ul>
       </nav>
