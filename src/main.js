@@ -1,6 +1,9 @@
 import { content, labels } from "./content.js";
 import { sources, itemSourceMap } from "./sources.js";
 import { illustrations } from "./illustrations.js";
+import { initVisitMoments } from "./visit-moments.js";
+
+let visitMoments;
 
 // State Contract
 export const state = {
@@ -80,6 +83,8 @@ export function render() {
   const isEn = state.language === "en";
 
   document.documentElement.lang = state.language;
+
+  visitMoments?.render();
 
   // Render sources section & offering detail references
   renderSources();
@@ -511,6 +516,7 @@ export function init() {
 
   // Initial render
   render();
+  visitMoments = initVisitMoments({ getCopy: () => labels[state.language].visit, sources });
 }
 
 if (typeof window !== "undefined") {

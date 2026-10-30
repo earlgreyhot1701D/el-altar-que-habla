@@ -1372,3 +1372,37 @@ button {
 @media (max-width: 480px) {
   .offerings-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
+
+/* Visit-only moments never participate in the scene's sizing or hit targets. */
+.visit-monarch { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 1; }
+.visit-monarch[hidden] { display: none; }
+.monarch-shape { position: absolute; left: 8px; top: var(--monarch-start); transform: translate(8px, var(--monarch-distance)); }
+.monarch-wings { transform-origin: 12px 12px; }
+.visit-moment { width: min(420px, calc(100% - 32px)); text-align: center; color: var(--gold2); }
+.visit-candle { display: block; margin: 0 auto 8px; }
+.visit-flame { display: none; transform-origin: 20px 24px; }
+.visit-moment[data-lit="true"] .visit-flame { display: block; }
+.visit-actions { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+.visit-actions button { min-height: 44px; padding: 8px 12px; border: 1px solid var(--line); border-radius: 20px; background: #101b2a; color: var(--gold2); font: 12px/1.5 Inter, Arial, sans-serif; }
+.visit-actions button:focus-visible { outline: 3px solid #ffce76; outline-offset: 3px; }
+.visit-actions button[aria-disabled="true"] { cursor: default; }
+#candleStatus { min-height: 42px; margin: 8px 0 0; font-size: 14px; line-height: 1.5; }
+#candleQuiet { min-height: 24px; margin: 0; font-size: 14px; line-height: 1.5; font-style: italic; }
+.visit-source-note { margin: 24px 0; padding: 18px; border: 1px solid var(--line); border-radius: 12px; background: #101b2a; }
+.visit-source-note h3 { margin: 0 0 12px; font-size: 26px; color: var(--gold2); }
+.visit-source-note p { margin: 12px 0; line-height: 1.6; }
+.visit-source-note a { color: var(--gold2); text-underline-offset: 3px; overflow-wrap: anywhere; }
+@media (prefers-reduced-motion: no-preference) {
+  .visit-moment[data-lit="true"] .visit-flame { animation: visit-catch 3s ease-in-out 1; }
+  .visit-monarch[data-mode="flight"] .monarch-shape { animation: monarch-arrival 11s linear 1; }
+  .visit-monarch[data-mode="flight"] .monarch-wings { animation: monarch-wings 1.2s ease-in-out infinite; }
+}
+@keyframes visit-catch { 0% { transform: scale(.65); } 20%, 60% { transform: scale(.95, 1.04); } 40%, 80% { transform: scale(1.02, .97); } 100% { transform: scale(1); } }
+@keyframes monarch-arrival {
+  0% { transform: translate(0, 0); opacity: 0; }
+  12% { opacity: 1; }
+  36%, 64% { transform: translate(8px, var(--monarch-distance)); opacity: 1; }
+  88% { opacity: 1; }
+  100% { transform: translate(0, 0); opacity: 0; }
+}
+@keyframes monarch-wings { 50% { transform: scaleX(.72); } }

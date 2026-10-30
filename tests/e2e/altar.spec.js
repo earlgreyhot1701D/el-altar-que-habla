@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import { fileURLToPath } from "node:url";
 
 // Object bounds independently annotated against the reviewed clean master image.
 // These regions describe the offerings, not the button styles under test.
@@ -168,7 +169,9 @@ for (const size of sizes) {
       // Pixel comparison against the manually inspected clean image. A DOM count alone
       // cannot detect controls painted into a bitmap. Review baseline changes by eye.
       await expect(page.locator(".scene")).toHaveScreenshot(`clean-art-${size.name}.png`, {
-        style: ".hotspot, .stage-heading { visibility: hidden !important; }"
+        // Preserve the legacy ignored option: existing baselines include hotspots.
+        style: ".hotspot, .stage-heading { visibility: hidden !important; }",
+        stylePath: fileURLToPath(new URL("./fixtures/visit-snapshot.css", import.meta.url))
       });
     });
   });

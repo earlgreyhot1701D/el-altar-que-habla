@@ -35,6 +35,18 @@ export const sources = {
     },
     url: "https://ich.unesco.org/en/RL/dia-de-muertos-the-indigenous-festivity-dedicated-to-the-dead-00054"
   },
+  alas: {
+    publisher: "Secretaría de Cultura · Alas y Raíces",
+    name: { en: "Interactive ofrenda", es: "Ofrenda interactiva" },
+    description: { en: "An interactive ofrenda that includes sugar and chocolate skulls. Referenced here for the chocolate-skull note.", es: "Una ofrenda interactiva que incluye calaveras de azúcar y chocolate. Se cita aquí para la nota sobre las calaveras de chocolate." },
+    url: "https://alasyraices.gob.mx/ofrenda-interactiva/"
+  },
+  monarch: {
+    publisher: "UNESCO · Man and the Biosphere Programme",
+    name: { en: "Monarch butterfly", es: "Mariposa Monarca" },
+    description: { en: "UNESCO describes the association with remembrance in Purépecha tradition and arrival around Día de Muertos.", es: "La UNESCO describe la asociación con el recuerdo en la tradición purépecha y la llegada en torno al Día de Muertos." },
+    url: "https://www.unesco.org/mab/50anniversary/es/mariposa-monarca"
+  },
   levels: {
     publisher: "Government of the State of Mexico (Archival Notice)",
     name: {

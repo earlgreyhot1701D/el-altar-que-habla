@@ -178,6 +178,23 @@ export const content = {
 
 export const labels = {
   es: {
+    visit: {
+      "light": "Encender una veladora",
+      "lit": "Tu veladora está encendida durante esta visita.",
+      "quiet": "Un momento de calma para recordar.",
+      "pause": "Pausar movimiento",
+      "resume": "Reanudar movimiento",
+      "reduced": "Movimiento reducido.",
+      "skullHeading": "¿Y las calaveras de azúcar?",
+      "skullInpi": "El INPI describe las calaveras de azúcar medianas como una alusión a la muerte siempre presente, las chicas como dedicadas a la Santísima Trinidad y la grande al Padre Eterno.",
+      "skullChocolate": "Algunas ofrendas también incluyen calaveras de chocolate.",
+      "variation": "Las tradiciones varían según la región, la comunidad y la familia.",
+      "inpiLink": "Fuente: INPI",
+      "chocolateLink": "Fuente: Secretaría de Cultura, Alas y Raíces",
+      "monarchHeading": "Monarcas y memoria",
+      "monarchText": "La UNESCO describe una asociación purépecha entre las mariposas monarca y la visita de los difuntos, y relaciona su llegada con el Día de Muertos, el 2 de noviembre. Las tradiciones varían según la comunidad.",
+      "monarchLink": "Fuente: UNESCO — Mariposa Monarca"
+},
     storyPanel: "Historia del elemento",
     startOver: "Empezar de nuevo",
     closeStory: "Cerrar historia y volver al altar",
@@ -247,6 +264,23 @@ export const labels = {
     detailSourcesTitle: "Lecturas institucionales de contexto"
   },
   en: {
+    visit: {
+      "light": "Light a candle",
+      "lit": "Your candle is lit for this visit.",
+      "quiet": "A quiet moment to remember.",
+      "pause": "Pause motion",
+      "resume": "Resume motion",
+      "reduced": "Motion is reduced.",
+      "skullHeading": "What about the sugar skulls?",
+      "skullInpi": "INPI describes medium sugar skulls as an allusion to ever-present death, small ones as dedicated to the Holy Trinity, and a large one to the Eternal Father.",
+      "skullChocolate": "Some ofrendas also include chocolate skulls.",
+      "variation": "Traditions vary by region, community, and family.",
+      "inpiLink": "Source: INPI",
+      "chocolateLink": "Source: Secretaría de Cultura, Alas y Raíces",
+      "monarchHeading": "Monarchs and remembrance",
+      "monarchText": "UNESCO describes a Purépecha association between monarch butterflies and the visiting dead, linking their arrival with Día de Muertos on November 2. Traditions vary by community.",
+      "monarchLink": "Source: UNESCO — Mariposa Monarca"
+},
     storyPanel: "Offering story",
     startOver: "Start over",
     closeStory: "Close story and return to altar",
