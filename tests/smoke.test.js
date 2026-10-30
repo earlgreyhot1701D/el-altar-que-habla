@@ -138,13 +138,42 @@ test("Hotspots: exactly seven hotspot buttons mapped to the seven sacred offerin
 
 
 
-test("Water recap has distinct bilingual context and matches the Gemma knowledge", async () => {
+test("All seven offerings match bilingual Gemma knowledge; water retains distinct recap", async () => {
   const { APPROVED_OFFERINGS } = await import("../api/_curated_knowledge.js");
   for (const language of ["en", "es"]) {
     assert.notEqual(content.water[language].description, content.water[language].context);
-    for (const field of ["context", "history", "variations"]) {
-      assert.equal(content.water[language][field], APPROVED_OFFERINGS.water[field][language]);
+    for (const id of Object.keys(APPROVED_OFFERINGS)) {
+      for (const field of ["category", "title", "context", "history", "variations"]) {
+        assert.equal(content[id][language][field], APPROVED_OFFERINGS[id][field][language], `${id}.${language}.${field}`);
+      }
     }
     assert.match(content.water[language].history, /INPI/);
+  }
+});
+
+test("Preview metadata and public assets describe the unchanged approved cover", () => {
+  const html = fs.readFileSync(path.join(rootDir, "index.html"), "utf8");
+  const description = html.match(/name="description" content="([^"]+)"/)[1];
+  const alt = html.match(/property="og:image:alt" content="([^"]+)"/)[1];
+  for (const property of ["og:type", "og:site_name", "og:title", "og:url", "og:description", "og:image", "og:image:type", "og:image:width", "og:image:height", "og:image:alt"]) {
+    assert.match(html, new RegExp(`property="${property}" content="[^"]+"`));
+  }
+  for (const name of ["twitter:card", "twitter:title", "twitter:description", "twitter:image", "twitter:image:alt"]) {
+    assert.match(html, new RegExp(`name="${name}" content="[^"]+"`));
+  }
+  assert.ok(description.includes("Explore seven Día de Muertos offerings"));
+  assert.ok(description.includes("Explora siete elementos"));
+  assert.ok(alt.includes("A small offering. Shared with care."));
+  assert.ok(alt.includes("Una pequeña ofrenda. Compartida con cariño"));
+  assert.match(html, /property="og:image" content="https:\/\/el-altar-que-habla.vercel.app\/cover-1000x420.png"/);
+  assert.match(html, /name="twitter:card" content="summary_large_image"/);
+  const original = fs.readFileSync(path.join(rootDir, "assets/article/cover-1000x420.png"));
+  const published = fs.readFileSync(path.join(rootDir, "public/cover-1000x420.png"));
+  assert.deepEqual(published, original);
+  assert.equal(published.readUInt32BE(16), 1000);
+  assert.equal(published.readUInt32BE(20), 420);
+  for (const icon of ["papel-picado", "copal"]) {
+    assert.match(html, new RegExp(`src="/icons/${icon}.svg" width="18" height="18" alt=""`));
+    assert.ok(fs.readFileSync(path.join(rootDir, `public/icons/${icon}.svg`), "utf8").includes('viewBox="0 0 18 18"'));
   }
 });

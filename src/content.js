@@ -178,15 +178,15 @@ export const content = {
 
 export const labels = {
   es: {
-    storyPanel: "Historia de la ofrenda",
+    storyPanel: "Historia del elemento",
     startOver: "Empezar de nuevo",
     closeStory: "Cerrar historia y volver al altar",
-    closeChooser: "Cerrar selector de ofrendas",
+    closeChooser: "Cerrar selector de elementos",
     selectionHelp: "Elige un elemento para abrir su historia. También puedes seleccionar un + en el altar.",
-    chooserHelp: "Elige una de las siete ofrendas. Su historia se abrirá junto al altar, o debajo en una pantalla pequeña.",
+    chooserHelp: "Elige uno de los siete elementos. Su historia se abrirá junto al altar, o debajo en una pantalla pequeña.",
     readStory: "Leer su historia →",
     storyOpened: "historia abierta",
-    progressReset: "Exploración reiniciada. Elige una ofrenda para comenzar de nuevo.",
+    progressReset: "Exploración reiniciada. Elige un elemento para comenzar de nuevo.",
     exploreNotice: "De vuelta en el altar. Selecciona cualquier + para abrir su historia.",
     hintBeside: "Elige un + o un elemento para abrir su historia a la derecha →",
     hintBelow: "Elige un + o un elemento para abrir su historia debajo ↓",
@@ -200,7 +200,8 @@ export const labels = {
     placeholder: "¿Qué significa este símbolo?",
     foot: "Gemma usa contexto curado. Si no está disponible, aparece una guía curada. Los enlaces institucionales son lecturas de contexto. Las tradiciones varían según la comunidad y la familia.",
     tabs: ["CONTEXTO", "HISTORIA", "VARIACIONES"],
-    offeringsListTitle: "Elige una ofrenda",
+    offeringsListTitle: "Elige un elemento",
+    offeringsNavAria: "Selección de elementos de la ofrenda",
     resetAria: "Reiniciar selección",
     askButtonAria: "Consultar explicación",
     stageHeading: "UNA OFRENDA PARA RECORDAR",
@@ -224,7 +225,7 @@ export const labels = {
       water: "Agua"
     },
     explore: "Explorar el altar",
-    offerings: "Las siete ofrendas",
+    offerings: "Los siete elementos",
     sources: "Fuentes y lecturas",
     answerPrefix: "Guía curada (sin IA): ",
     gemmaPrefix: "Guía Gemma 4 (IA): ",
@@ -233,14 +234,15 @@ export const labels = {
     intro: {
       badge: "BIENVENIDOS · WELCOME",
       title: "Adéntrate en la Ofrenda",
-      text: "Bienvenido a El Altar que Habla. El Día de Muertos es una celebración viva de memoria, respeto y hospitalidad en México. Explora siete ofrendas sagradas en el altar, descubre sus historias documentadas por instituciones culturales y dialoga con nuestra guía asistida por Gemma 4.",
+      text: "Bienvenidos a El Altar que Habla. Con raíces indígenas e influencias católicas, el Día de Muertos se celebra en comunidades de México. Explora siete elementos de este altar ilustrado, lee explicaciones curadas con enlaces a instituciones culturales y haz preguntas con ayuda de Gemma. Las tradiciones varían según la comunidad y la familia.",
       begin: "Comenzar exploración",
       skip: "Saltar introducción",
-      dismiss: "Cerrar bienvenida"
+      dismiss: "Cerrar bienvenida",
+      backgroundUnesco: "Contexto: UNESCO"
     },
     progress: {
-      title: "Ofrendas exploradas",
-      complete: "Todas las ofrendas han sido honradas con reverencia"
+      title: "Elementos explorados",
+      complete: "Has explorado los siete elementos."
     },
     detailSourcesTitle: "Lecturas institucionales de contexto"
   },
@@ -266,6 +268,7 @@ export const labels = {
     foot: "Gemma answers use curated context. If unavailable, a curated guide appears. Institutional links are background reading. Traditions vary by community and family.",
     tabs: ["CONTEXT", "HISTORY", "VARIATIONS"],
     offeringsListTitle: "Choose an offering",
+    offeringsNavAria: "Altar offerings selection",
     resetAria: "Reset selection",
     askButtonAria: "Show explanation",
     stageHeading: "AN OFRENDA TO REMEMBER",
@@ -295,14 +298,15 @@ export const labels = {
     intro: {
       badge: "WELCOME · BIENVENIDOS",
       title: "Step into the Ofrenda",
-      text: "Welcome to El Altar que Habla. Día de los Muertos is a living Mexican celebration of memory, respect, and hospitality. Explore seven sacred offerings across the altar, learn their stories grounded in institutional archives, and converse with our grounded Gemma guide.",
+      text: "Welcome to El Altar que Habla. With Indigenous roots and Catholic influences, Día de Muertos is celebrated by communities in Mexico. Explore seven offerings on this illustrated altar, read curated explanations with links to cultural institutions, and ask questions with Gemma’s assistance. Traditions vary by community and family.",
       begin: "Begin Exploration",
       skip: "Skip Introduction",
-      dismiss: "Dismiss welcome"
+      dismiss: "Dismiss welcome",
+      backgroundUnesco: "Background: UNESCO"
     },
     progress: {
       title: "Offerings Explored",
-      complete: "All offerings honored with reverence"
+      complete: "You've explored all seven offerings."
     },
     detailSourcesTitle: "Institutional background reading"
   }

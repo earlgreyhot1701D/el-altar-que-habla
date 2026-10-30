@@ -155,6 +155,8 @@ button {
   box-shadow: 0 16px 48px rgba(0, 0, 0, 0.7), 0 0 24px rgba(239, 179, 95, 0.2);
   border-radius: 14px;
   max-width: 520px;
+  max-height: calc(100svh - 40px);
+  overflow-y: auto;
   width: 100%;
   padding: 28px 26px;
   color: #f9edda;
@@ -224,6 +226,9 @@ button {
   color: #d1c8bd;
   margin: 0 0 22px;
 }
+
+.intro-background { margin: 0 0 18px; font: 12px/1.5 Inter, Arial, sans-serif; }
+.intro-background a { color: var(--gold2); text-underline-offset: 3px; }
 
 .intro-dialog p em {
   color: var(--gold2);
@@ -1291,11 +1296,13 @@ button {
   width: 100%;
   height: 100%;
   min-height: 48px;
-  padding: 9px 8px;
+  padding: 9px 6px;
   font-size: 12px;
   line-height: 1.4;
 }
-.offering-btn-label { min-width: 0; overflow-wrap: anywhere; }
+.offering-btn-label { min-width: 0; overflow-wrap: normal; word-break: normal; hyphens: none; }
+.offering-select-btn[data-id="flowers"] .offering-btn-label { white-space: nowrap; }
+.offering-icon img { display: block; width: 18px; height: 18px; }
 .offering-icon { text-align: center; }
 
 .stage { flex-direction: column; justify-content: flex-start; gap: 14px; padding: 24px 0; }
@@ -1324,6 +1331,20 @@ button {
   line-height: 1.5;
 }
 .selection-notice { position: static; margin: 0 12px; line-height: 1.5; }
+
+/* Only the existing 240px desktop rails need a single-column offering list. */
+@media (min-width: 851px) and (max-width: 1200px) {
+  .offerings-list { grid-template-columns: 1fr; }
+  .sidebar { height: 100svh; min-height: 0; }
+  .sidebar > * { flex-shrink: 0; }
+  .sidebar > .offerings-nav {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+  .offerings-nav .offerings-list { min-height: 0; overflow-y: auto; }
+}
 
 @media (max-width: 850px) {
   .sidebar {

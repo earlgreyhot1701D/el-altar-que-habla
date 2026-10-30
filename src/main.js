@@ -88,6 +88,7 @@ export function render() {
   // Landmarks & labels
   const stage = document.querySelector(".stage");
   if (stage) stage.setAttribute("aria-label", l.stageAria);
+  document.querySelector(".offerings-nav").setAttribute("aria-label", l.offeringsNavAria);
 
   const scene = document.querySelector(".scene");
   if (scene) scene.setAttribute("alt", l.sceneAria);
@@ -153,6 +154,8 @@ export function render() {
   if (introHeading) introHeading.textContent = l.intro.title;
   const introText = $("introText");
   if (introText) introText.textContent = l.intro.text;
+  $("introUnesco").textContent = l.intro.backgroundUnesco;
+  $("introUnesco").href = sources.unesco.url;
   const introBegin = $("introBeginBtn");
   if (introBegin) introBegin.textContent = l.intro.begin;
   const introSkip = $("introSkipBtn");
@@ -348,7 +351,7 @@ export function trapFocus(event) {
   const modal = $("introModal");
   if (!modal || modal.hidden) return;
 
-  const focusable = modal.querySelectorAll('button:not([disabled]), [tabindex]:not([tabindex="-1"])');
+  const focusable = modal.querySelectorAll('button:not([disabled]), a[href], [tabindex]:not([tabindex="-1"])');
   if (focusable.length === 0) return;
 
   const first = focusable[0];
